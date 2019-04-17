@@ -3,16 +3,15 @@
  */
 package dev.services;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.web.bind.annotation.RequestParam;
-
 import dev.entities.Collegue;
+import dev.exception.CollegueNonTrouveException;
 
 /**
  *
@@ -32,29 +31,13 @@ public class CollegueService
 		data.put(matriculeTemp, new Collegue(matriculeTemp, "Bob", "Arthur", "c@c.c", "1946-08_03", ""));
 	}
 
-	public List<Collegue> rechercherParNom(@RequestParam("nom") String nomRecherche)
+	public List<Collegue> rechercherParNom(String nomRecherche)
 	{
-		return new ArrayList<Collegue>(
-				data.values().stream().filter(t -> t.getNom().equals(nomRecherche)).collect(Collectors.toList()));
+		return data.values().stream().filter(t -> t.getNom().equals(nomRecherche)).collect(Collectors.toList());
 	}
 
-	/**
-	 * Getter
-	 * 
-	 * @return the data
-	 */
-	public Map<String, Collegue> getData()
+	public Collegue rechercherParMatricule(String matriculeRecherche) throws CollegueNonTrouveException
 	{
-		return data;
-	}
-
-	/**
-	 * Setter
-	 * 
-	 * @param data the data to set
-	 */
-	public void setData(Map<String, Collegue> data)
-	{
-		this.data = data;
+		return Optional.ofNullable(data.get(matriculeRecherche)).orElseThrow(CollegueNonTrouveException::new);
 	}
 }

@@ -26,8 +26,15 @@ public class CollegueController
 
 	@GetMapping()
 	@ResponseBody
-	public List<Collegue> rechercherParNom(@RequestParam("nom") String nomRecherche)
+	public List<Collegue> afficherCollegueParNom(@RequestParam("nom") String nomRecherche)
 	{
 		return collegueService.rechercherParNom(nomRecherche);
+	}
+
+	@GetMapping()
+	@ResponseBody
+	public Collegue afficherCollegueParMatricule(@RequestParam("matricule") String matriculeRecherche)
+	{
+		return collegueService.rechercherParMatricule(matriculeRecherche);
 	}
 }
