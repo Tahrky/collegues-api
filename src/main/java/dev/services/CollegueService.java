@@ -13,6 +13,8 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+
 import dev.entities.Collegue;
 import dev.exception.CollegueInvalideException;
 import dev.exception.CollegueNonTrouveException;
@@ -21,6 +23,7 @@ import dev.exception.CollegueNonTrouveException;
  *
  * @author BIRABEN-BIANCHI Hugo
  */
+@Service
 public class CollegueService
 {
 	private Map<String, Collegue> data = new HashMap<>();

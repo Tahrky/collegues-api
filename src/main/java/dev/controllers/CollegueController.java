@@ -5,6 +5,7 @@ package dev.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,8 @@ import dev.services.CollegueService;
 @RequestMapping("/collegues")
 public class CollegueController
 {
-	private CollegueService collegueService = new CollegueService();
+	@Autowired
+	private CollegueService collegueService;
 
 	@GetMapping()
 	public List<Collegue> afficherCollegueParNom(@RequestParam("nom") String nomRecherche)
