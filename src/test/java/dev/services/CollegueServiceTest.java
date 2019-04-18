@@ -7,6 +7,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import dev.entities.Collegue;
 import dev.exception.CollegueInvalideException;
@@ -16,9 +20,12 @@ import dev.exception.CollegueNonTrouveException;
  *
  * @author BIRABEN-BIANCHI Hugo
  */
+@RunWith(SpringRunner.class)
+@SpringBootApplication
 public class CollegueServiceTest
 {
-	CollegueService collegueService = new CollegueService();
+	@Autowired
+	CollegueService collegueService;
 
 	static String nomCorrect = "Denis";
 	static String prenomCorrect = "Bob";
