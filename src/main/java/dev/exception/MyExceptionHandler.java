@@ -16,10 +16,16 @@ import org.springframework.web.context.request.WebRequest;
 public class MyExceptionHandler
 {
 	@ExceptionHandler(value = CollegueNonTrouveException.class)
-
-	protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request)
+	protected ResponseEntity<Object> handleConflictCollegueNotFound(RuntimeException ex, WebRequest request)
 	{
 		String bodyOfResponse = "Collegue non trouvé";
+		return ResponseEntity.status(404).body(bodyOfResponse);
+	}
+
+	@ExceptionHandler(value = CollegueInvalideException.class)
+	protected ResponseEntity<Object> handleConflictCollegueInvalid(RuntimeException ex, WebRequest request)
+	{
+		String bodyOfResponse = "Collegue invalide : " + CollegueInvalideException.msg;
 		return ResponseEntity.status(404).body(bodyOfResponse);
 	}
 }

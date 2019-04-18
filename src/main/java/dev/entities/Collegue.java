@@ -3,20 +3,39 @@
  */
 package dev.entities;
 
+import java.time.LocalDate;
+
 /**
  *
  * @author BIRABEN-BIANCHI Hugo
  */
 public class Collegue
 {
+	final String TIME_PATTERN = "yyyy-MM-d";
+
 	String matricule;
 	String nom;
 	String prenoms;
 	String email;
-	String dateDeNaissance;
 	String photoUrl;
+	LocalDate dateDeNaissance;
 
-	public Collegue(String matricule, String nom, String prenoms, String email, String dateDeNaissance, String photoUrl)
+	public Collegue()
+	{
+	}
+
+	public Collegue(String nom, String prenoms, String email, String photoUrl, LocalDate dateDeNaissance)
+	{
+		super();
+		this.nom = nom;
+		this.prenoms = prenoms;
+		this.email = email;
+		this.dateDeNaissance = dateDeNaissance;
+		this.photoUrl = photoUrl;
+	}
+
+	public Collegue(String matricule, String nom, String prenoms, String email, String photoUrl,
+			LocalDate dateDeNaissance)
 	{
 		super();
 		this.matricule = matricule;
@@ -112,7 +131,7 @@ public class Collegue
 	 * 
 	 * @return the dateDeNaissance
 	 */
-	public String getDateDeNaissance()
+	public LocalDate getDateDeNaissance()
 	{
 		return dateDeNaissance;
 	}
@@ -122,7 +141,7 @@ public class Collegue
 	 * 
 	 * @param dateDeNaissance the dateDeNaissance to set
 	 */
-	public void setDateDeNaissance(String dateDeNaissance)
+	public void setDateDeNaissance(LocalDate dateDeNaissance)
 	{
 		this.dateDeNaissance = dateDeNaissance;
 	}
