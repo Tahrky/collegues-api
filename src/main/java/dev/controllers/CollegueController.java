@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,9 +42,17 @@ public class CollegueController
 	}
 
 	@PostMapping
-	public ResponseEntity<String> afficherCollegueParMatricule(@RequestBody Collegue collegueAAjouter)
+	public ResponseEntity<Collegue> ajouterCollegue(@RequestBody Collegue collegueAAjouter)
 	{
-		collegueService.ajouterUnCollegue(collegueAAjouter);
-		return ResponseEntity.status(HttpStatus.OK).body("Collègue ajouté correctement");
+		Collegue collegueTemp = collegueService.ajouterUnCollegue(collegueAAjouter);
+		return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
+	}
+
+	@PatchMapping
+	public ResponseEntity<String> miseAJourEmail(@RequestParam("matricule") String matriculeRecherche,
+			@RequestParam("email") String nvlEmail)
+	{
+		collegueService.modifierEmail(matriculeRecherche, nvlEmail);
+		return ResponseEntity.status(HttpStatus.OK).body("Email modifié correctement");
 	}
 }

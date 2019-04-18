@@ -41,7 +41,7 @@ public class CollegueService
 				new Collegue(matriculeTemp, "Bob", "Arthur", "c@c.c", "http://photoQuiExistePas.com", date1));
 	}
 
-	public void ajouterUnCollegue(Collegue collegueAAjouter) throws CollegueInvalideException
+	public Collegue ajouterUnCollegue(Collegue collegueAAjouter)
 	{
 		if (collegueAAjouter.getNom().length() <= 2)
 		{
@@ -78,6 +78,33 @@ public class CollegueService
 
 		collegueAAjouter.setMatricule(UUID.randomUUID().toString());
 		data.put(collegueAAjouter.getMatricule(), collegueAAjouter);
+		return collegueAAjouter;
+	}
+
+	public Collegue modifierEmail(String matricule, String email)
+	{
+
+		if (!data.containsKey(matricule))
+		{
+			throw new CollegueNonTrouveException();
+		}
+
+		Collegue collegue = data.get(matricule);
+
+		if (email.length() <= 3)
+		{
+			throw new CollegueInvalideException("Email invalide, trop court (3 caractères minimums)");
+		}
+
+		if (email.contains("@"))
+		{
+			throw new CollegueInvalideException("Email invalide, doit contenir un @");
+		}
+
+		collegue.setEmail(email);
+		data.put(matricule, collegue);
+
+		return collegue;
 	}
 
 	public List<Collegue> rechercherParNom(String nomRecherche)
