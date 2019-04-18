@@ -50,7 +50,7 @@ public class CollegueController
 	}
 
 	@PatchMapping(path = "/{matriculeRecherche}")
-	public ResponseEntity<Collegue> miseAJourEmail(@PathVariable String matriculeRecherche,
+	public ResponseEntity<Collegue> miseAJourCollegue(@PathVariable String matriculeRecherche,
 			@RequestBody CollegueACompleter nvCollegue)
 	{
 		Collegue collegueTemp = new Collegue();
