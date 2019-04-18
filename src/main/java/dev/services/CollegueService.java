@@ -39,6 +39,8 @@ public class CollegueService
 		matriculeTemp = UUID.randomUUID().toString();
 		data.put(matriculeTemp,
 				new Collegue(matriculeTemp, "Bob", "Arthur", "c@c.c", "http://photoQuiExistePas.com", date1));
+
+		data.put("1", new Collegue("1", "Bobbi", "Albert", "a@a.a", "http://photoQuiExistePas.com", date1));
 	}
 
 	public Collegue ajouterUnCollegue(Collegue collegueAAjouter)
@@ -83,7 +85,6 @@ public class CollegueService
 
 	public Collegue modifierEmail(String matricule, String email)
 	{
-
 		if (!data.containsKey(matricule))
 		{
 			throw new CollegueNonTrouveException();
@@ -96,12 +97,33 @@ public class CollegueService
 			throw new CollegueInvalideException("Email invalide, trop court (3 caractères minimums)");
 		}
 
-		if (email.contains("@"))
+		if (!email.contains("@"))
 		{
 			throw new CollegueInvalideException("Email invalide, doit contenir un @");
 		}
 
 		collegue.setEmail(email);
+		data.put(matricule, collegue);
+
+		return collegue;
+	}
+
+	public Collegue modifierPhotoUrl(String matricule, String photoUrl)
+	{
+		if (!data.containsKey(matricule))
+		{
+			throw new CollegueNonTrouveException();
+		}
+
+		Collegue collegue = data.get(matricule);
+
+		if (!photoUrl.contains("http"))
+		{
+			throw new CollegueInvalideException(
+					"Url de la photo invalide, doit contenir au moins http en début de lien");
+		}
+
+		collegue.setPhotoUrl(photoUrl);
 		data.put(matricule, collegue);
 
 		return collegue;

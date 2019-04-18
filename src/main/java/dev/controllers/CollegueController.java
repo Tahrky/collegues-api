@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import dev.entities.Collegue;
+import dev.entities.CollegueACompleter;
 import dev.services.CollegueService;
 
 /**
@@ -35,7 +36,7 @@ public class CollegueController
 		return collegueService.rechercherParNom(nomRecherche);
 	}
 
-	@GetMapping(path = "/{matricule}")
+	@GetMapping(path = "/{matriculeRecherche}")
 	public Collegue afficherCollegueParMatricule(@PathVariable String matriculeRecherche)
 	{
 		return collegueService.rechercherParMatricule(matriculeRecherche);
@@ -48,11 +49,22 @@ public class CollegueController
 		return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
 	}
 
-	@PatchMapping
-	public ResponseEntity<String> miseAJourEmail(@RequestParam("matricule") String matriculeRecherche,
-			@RequestParam("email") String nvlEmail)
+	@PatchMapping(path = "/{matriculeRecherche}")
+	public ResponseEntity<Collegue> miseAJourEmail(@PathVariable String matriculeRecherche,
+			@RequestBody CollegueACompleter nvCollegue)
 	{
-		collegueService.modifierEmail(matriculeRecherche, nvlEmail);
-		return ResponseEntity.status(HttpStatus.OK).body("Email modifié correctement");
+		Collegue collegueTemp = new Collegue();
+
+		if (nvCollegue.getEmail() != null)
+		{
+			collegueTemp = collegueService.modifierEmail(matriculeRecherche, nvCollegue.getEmail());
+		}
+
+		if (nvCollegue.getPhotoUrl() != null)
+		{
+			collegueTemp = collegueService.modifierPhotoUrl(matriculeRecherche, nvCollegue.getPhotoUrl());
+		}
+
+		return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
 	}
 }
