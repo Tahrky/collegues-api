@@ -5,19 +5,32 @@ package dev.entities;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 /**
  *
  * @author BIRABEN-BIANCHI Hugo
  */
+@Entity
 public class Collegue
 {
-	final String TIME_PATTERN = "yyyy-MM-d";
+	@Transient
+	static final String TIME_PATTERN = "yyyy-MM-d";
 
+	@Id
 	String matricule;
+	@Column
 	String nom;
+	@Column
 	String prenoms;
+	@Column
 	String email;
+	@Column
 	String photoUrl;
+	@Column
 	LocalDate dateDeNaissance;
 
 	public Collegue()
