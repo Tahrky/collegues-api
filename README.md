@@ -30,7 +30,7 @@ Pour ajouter un collègue, toutes les informations doivent être remplies (nom, 
 ```
 
 ## Modification de l'Email et/ou de la PhotoUrl (PATCH)
-Lien pour l'application : https://biraben-collegues-api.herokuapp.com/collegues
+Lien pour l'application : https://biraben-collegues-api.herokuapp.com/collegues/${MATRICULE}
 
 ```
 {
