@@ -95,7 +95,7 @@ public class CollegueService
 
 	public Collegue modifierPhotoUrl(String matricule, String photoUrl)
 	{
-		if (colRepo.existsById(matricule))
+		if (!colRepo.existsById(matricule))
 		{
 			throw new CollegueNonTrouveException();
 		}
