@@ -25,7 +25,7 @@ Pour ajouter un collègue, toutes les informations doivent être remplies (nom, 
    "prenoms" : "Miguel",
    "dateDeNaissance" : "2000-01-01",
    "photoUrl" : "https://photoQuiExistePas.com/89854.jpg",
-   "email": "pouetpouet@a.a
+   "email": "pouetpouet@a.a"
 }
 ```
 
