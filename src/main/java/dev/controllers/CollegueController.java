@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.entities.Collegue;
 import dev.entities.CollegueACompleter;
+import dev.entities.ColleguePojo;
 import dev.services.CollegueService;
 
 /**
@@ -45,9 +46,9 @@ public class CollegueController
 	}
 
 	@PostMapping
-	public ResponseEntity<Collegue> ajouterCollegue(@RequestBody Collegue collegueAAjouter)
+	public ResponseEntity<ColleguePojo> ajouterCollegue(@RequestBody ColleguePojo collegueAAjouter)
 	{
-		Collegue collegueTemp = collegueService.ajouterUnCollegue(collegueAAjouter);
+		ColleguePojo collegueTemp = collegueService.ajouterUnCollegue(collegueAAjouter);
 		return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
 	}
 

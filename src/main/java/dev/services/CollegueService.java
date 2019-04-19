@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.entities.Collegue;
+import dev.entities.ColleguePojo;
 import dev.exception.CollegueInvalideException;
 import dev.exception.CollegueNonTrouveException;
 import dev.repository.CollegueRepository;
@@ -27,7 +28,7 @@ public class CollegueService
 	@Autowired
 	CollegueRepository colRepo;
 
-	public Collegue ajouterUnCollegue(Collegue collegueAAjouter)
+	public ColleguePojo ajouterUnCollegue(ColleguePojo collegueAAjouter)
 	{
 		if (collegueAAjouter.getNom().length() <= 2)
 		{
@@ -63,7 +64,7 @@ public class CollegueService
 		}
 
 		collegueAAjouter.setMatricule(UUID.randomUUID().toString());
-		colRepo.save(collegueAAjouter);
+		colRepo.save(collegueAAjouter.transformerEnCollegue());
 		return collegueAAjouter;
 	}
 

@@ -9,7 +9,6 @@ package dev.exception;
  */
 public class CollegueInvalideException extends RuntimeException
 {
-	static String msg;
 
 	/**
 	 * Constructor
@@ -18,17 +17,7 @@ public class CollegueInvalideException extends RuntimeException
 	 */
 	public CollegueInvalideException(String message)
 	{
-		msg = message;
-	}
-
-	/**
-	 * Getter
-	 * 
-	 * @return the msg
-	 */
-	public static String getMsg()
-	{
-		return msg;
+		super(message);
 	}
 
 	/**
