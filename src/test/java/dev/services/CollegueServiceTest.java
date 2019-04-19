@@ -91,7 +91,7 @@ public class CollegueServiceTest
 		String emailTropCourt = "a@";
 
 		Mockito.when(mockedRepository.findById(matricule)).thenReturn(Optional.of(new Collegue(matricule, nomCorrect,
-				prenomCorrect, emailTropCourt, photoUrlCorrect, dateDeNaissanceCorrect)));
+				prenomCorrect, emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect)));
 		colServ.modifierEmail(matricule, emailTropCourt);
 	}
 
@@ -101,7 +101,7 @@ public class CollegueServiceTest
 		String emailSansArobase = "aaazeazea";
 
 		Mockito.when(mockedRepository.findById(matricule)).thenReturn(Optional.of(new Collegue(matricule, nomCorrect,
-				prenomCorrect, emailSansArobase, photoUrlCorrect, dateDeNaissanceCorrect)));
+				prenomCorrect, emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect)));
 		colServ.modifierEmail(matricule, emailSansArobase);
 	}
 
@@ -117,7 +117,7 @@ public class CollegueServiceTest
 		String photoUrlMauvaise = "azeazea.com";
 
 		Mockito.when(mockedRepository.findById(matricule)).thenReturn(Optional.of(new Collegue(matricule, nomCorrect,
-				prenomCorrect, emailCorrect, photoUrlMauvaise, dateDeNaissanceCorrect)));
+				prenomCorrect, emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect)));
 		colServ.modifierPhotoUrl(matricule, photoUrlMauvaise);
 	}
 
