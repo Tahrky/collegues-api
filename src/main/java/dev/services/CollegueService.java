@@ -6,7 +6,6 @@ package dev.services;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -70,12 +69,7 @@ public class CollegueService
 
 	public Collegue modifierEmail(String matricule, String email)
 	{
-		if (!colRepo.existsById(matricule))
-		{
-			throw new CollegueNonTrouveException();
-		}
-
-		Collegue collegue = colRepo.getOne(matricule);
+		Collegue collegue = colRepo.findById(matricule).orElseThrow(CollegueNonTrouveException::new);
 
 		if (email.length() <= 3)
 		{
@@ -95,12 +89,7 @@ public class CollegueService
 
 	public Collegue modifierPhotoUrl(String matricule, String photoUrl)
 	{
-		if (!colRepo.existsById(matricule))
-		{
-			throw new CollegueNonTrouveException();
-		}
-
-		Collegue collegue = colRepo.getOne(matricule);
+		Collegue collegue = colRepo.findById(matricule).orElseThrow(CollegueNonTrouveException::new);
 
 		if (!photoUrl.contains("http"))
 		{
@@ -121,6 +110,6 @@ public class CollegueService
 
 	public Collegue rechercherParMatricule(String matriculeRecherche) throws CollegueNonTrouveException
 	{
-		return Optional.ofNullable(colRepo.getOne(matriculeRecherche)).orElseThrow(CollegueNonTrouveException::new);
+		return colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new);
 	}
 }
