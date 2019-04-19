@@ -23,7 +23,7 @@ public class StartupDataInit
 {
 	@Autowired
 	CollegueRepository collegueRepo;
-	final String TIME_PATTERN = "yyyy-MM-d";
+	static final String TIME_PATTERN = "yyyy-MM-d";
 
 	// La méthode init va être invoquée au démarrage de l'application.
 	@EventListener(ContextRefreshedEvent.class)

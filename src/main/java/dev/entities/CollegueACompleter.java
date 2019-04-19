@@ -12,11 +12,6 @@ public class CollegueACompleter
 	private String email;
 	private String photoUrl;
 
-	public CollegueACompleter()
-	{
-
-	}
-
 	/**
 	 * Getter
 	 * 

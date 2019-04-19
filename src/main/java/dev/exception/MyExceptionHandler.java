@@ -25,7 +25,7 @@ public class MyExceptionHandler
 	@ExceptionHandler(value = CollegueInvalideException.class)
 	protected ResponseEntity<Object> handleConflictCollegueInvalid(RuntimeException ex, WebRequest request)
 	{
-		String bodyOfResponse = "Collegue invalide : " + CollegueInvalideException.msg;
+		String bodyOfResponse = "Collegue invalide : " + CollegueInvalideException.getMsg();
 		return ResponseEntity.status(404).body(bodyOfResponse);
 	}
 }

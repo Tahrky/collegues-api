@@ -108,7 +108,7 @@ public class CollegueService
 		return colRepo.findAll().stream().filter(t -> t.getNom().equals(nomRecherche)).collect(Collectors.toList());
 	}
 
-	public Collegue rechercherParMatricule(String matriculeRecherche) throws CollegueNonTrouveException
+	public Collegue rechercherParMatricule(String matriculeRecherche)
 	{
 		return colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new);
 	}
