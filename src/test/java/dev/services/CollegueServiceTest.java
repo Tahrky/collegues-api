@@ -5,107 +5,146 @@ package dev.services;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.Mockito;
 
+import dev.entities.Collegue;
 import dev.entities.ColleguePojo;
 import dev.exception.CollegueInvalideException;
 import dev.exception.CollegueNonTrouveException;
+import dev.repository.CollegueRepository;
 
 /**
  *
  * @author BIRABEN-BIANCHI Hugo
  */
-@RunWith(SpringRunner.class)
-@SpringBootApplication
 public class CollegueServiceTest
 {
-	@Autowired
-	CollegueService collegueService;
+	CollegueRepository mockedRepository = Mockito.mock(CollegueRepository.class);
+	CollegueService colServ = new CollegueService();
 
-	static String nomCorrect = "Denis";
-	static String prenomCorrect = "Bob";
-	static String emailCorrect = "email@a.com";
-	static String photoUrlCorrect = "http://photoUrl.com";
+	String nomCorrect = "Denis";
+	String prenomCorrect = "Bob";
+	String emailCorrect = "email@a.com";
+	String photoUrlCorrect = "http://photoUrl.com";
+	String matricule = "1";
 
 	final static String TIME_PATTERN = "yyyy-MM-d";
-	static LocalDate dateDeNaissanceCorrect = LocalDate.parse("1982-12-11", DateTimeFormatter.ofPattern(TIME_PATTERN));
+	LocalDate dateDeNaissanceCorrect = LocalDate.parse("1982-12-11", DateTimeFormatter.ofPattern(TIME_PATTERN));
 
-	static String matricule = "1";
+	@Before
+	public void init()
+	{
+		colServ.setColRepo(mockedRepository);
+	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_NomTropCourt()
 	{
-		collegueService.ajouterUnCollegue(
-				new ColleguePojo("a", prenomCorrect, emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect));
+		ColleguePojo temp = new ColleguePojo("a", prenomCorrect, emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect);
+		Mockito.when(colServ.ajouterUnCollegue(temp)).thenThrow(new CollegueInvalideException("Nom trop court"));
+
+		colServ.ajouterUnCollegue(temp);
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_PrenomTropCourt()
 	{
-		collegueService.ajouterUnCollegue(
-				new ColleguePojo(nomCorrect, "b", emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect));
+		ColleguePojo temp = new ColleguePojo(nomCorrect, "b", emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect);
+		Mockito.when(colServ.ajouterUnCollegue(temp)).thenThrow(new CollegueInvalideException("Prenom trop court"));
+
+		colServ.ajouterUnCollegue(temp);
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_EmailTropCourt()
 	{
-		collegueService.ajouterUnCollegue(
-				new ColleguePojo(nomCorrect, prenomCorrect, "a@", photoUrlCorrect, dateDeNaissanceCorrect));
+		ColleguePojo temp = new ColleguePojo(nomCorrect, prenomCorrect, "a@", photoUrlCorrect, dateDeNaissanceCorrect);
+		Mockito.when(colServ.ajouterUnCollegue(temp)).thenThrow(new CollegueInvalideException("Email trop court"));
+
+		colServ.ajouterUnCollegue(temp);
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_EmailSansArobase()
 	{
-		collegueService.ajouterUnCollegue(
-				new ColleguePojo(nomCorrect, prenomCorrect, "arthur.com", photoUrlCorrect, dateDeNaissanceCorrect));
+		ColleguePojo temp = new ColleguePojo(nomCorrect, prenomCorrect, "arthur.com", photoUrlCorrect,
+				dateDeNaissanceCorrect);
+		Mockito.when(colServ.ajouterUnCollegue(temp)).thenThrow(new CollegueInvalideException("Email sans @"));
+
+		colServ.ajouterUnCollegue(temp);
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_photoUrlSansHttp()
 	{
-		collegueService.ajouterUnCollegue(
-				new ColleguePojo(nomCorrect, prenomCorrect, emailCorrect, "photo.com", dateDeNaissanceCorrect));
+		ColleguePojo temp = new ColleguePojo(nomCorrect, prenomCorrect, emailCorrect, "photo.com",
+				dateDeNaissanceCorrect);
+		Mockito.when(colServ.ajouterUnCollegue(temp))
+				.thenThrow(new CollegueInvalideException("L'url ne contient pas http"));
+
+		colServ.ajouterUnCollegue(temp);
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_pasMajeur()
 	{
-		collegueService.ajouterUnCollegue(
-				new ColleguePojo(nomCorrect, prenomCorrect, emailCorrect, photoUrlCorrect, LocalDate.now()));
+		ColleguePojo temp = new ColleguePojo(nomCorrect, prenomCorrect, emailCorrect, photoUrlCorrect, LocalDate.now());
+		Mockito.when(colServ.ajouterUnCollegue(temp)).thenThrow(new CollegueInvalideException("Pas majeur"));
+
+		colServ.ajouterUnCollegue(temp);
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void modifierEmail_EmailTropCourt()
 	{
-		collegueService.modifierEmail(matricule, "aa");
+		String emailTropCourt = "a@";
+
+		Mockito.when(mockedRepository.findById(matricule)).thenReturn(Optional.of(new Collegue(matricule, nomCorrect,
+				prenomCorrect, emailTropCourt, photoUrlCorrect, dateDeNaissanceCorrect)));
+		Mockito.when(colServ.modifierEmail(matricule, emailTropCourt))
+				.thenThrow(new CollegueInvalideException("Email trop court"));
+		colServ.modifierEmail(matricule, emailTropCourt);
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void modifierEmail_EmailSansArobase()
 	{
-		collegueService.modifierEmail(matricule, "arthurLeChevalier.com");
+		String emailSansArobase = "aaazeazea";
+
+		Mockito.when(mockedRepository.findById(matricule)).thenReturn(Optional.of(new Collegue(matricule, nomCorrect,
+				prenomCorrect, emailSansArobase, photoUrlCorrect, dateDeNaissanceCorrect)));
+		Mockito.when(colServ.modifierEmail(matricule, emailSansArobase))
+				.thenThrow(new CollegueInvalideException("Email sans @"));
+		colServ.modifierEmail(matricule, emailSansArobase);
 	}
 
 	@Test(expected = CollegueNonTrouveException.class)
 	public void modifierEmail_mauvaisMatricule()
 	{
-		collegueService.modifierEmail("2", emailCorrect);
+		Mockito.when(colServ.modifierEmail("2", "a@a.a")).thenThrow(new CollegueNonTrouveException());
+		colServ.modifierEmail("2", "a@a.a");
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void modifierPhotoUrl_photoUrlMauvaise()
 	{
-		collegueService.modifierPhotoUrl(matricule, "maPhoto.com");
+		String photoUrlMauvaise = "azeazea.com";
+
+		Mockito.when(mockedRepository.findById(matricule)).thenReturn(Optional.of(new Collegue(matricule, nomCorrect,
+				prenomCorrect, emailCorrect, photoUrlMauvaise, dateDeNaissanceCorrect)));
+		Mockito.when(colServ.modifierPhotoUrl(matricule, photoUrlMauvaise))
+				.thenThrow(new CollegueInvalideException("Mauvais lien, pas de http"));
+		colServ.modifierPhotoUrl(matricule, photoUrlMauvaise);
 	}
 
 	@Test(expected = CollegueNonTrouveException.class)
 	public void modifierPhotoUrl_mauvaisMatricule()
 	{
-		collegueService.modifierPhotoUrl("2", photoUrlCorrect);
+		Mockito.when(colServ.modifierPhotoUrl("2", "http://photo.com")).thenThrow(new CollegueNonTrouveException());
+		colServ.modifierPhotoUrl("2", "http://photo.com");
 	}
 }

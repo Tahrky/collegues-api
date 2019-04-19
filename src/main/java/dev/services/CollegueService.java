@@ -26,7 +26,27 @@ import dev.repository.CollegueRepository;
 public class CollegueService
 {
 	@Autowired
-	CollegueRepository colRepo;
+	private CollegueRepository colRepo;
+
+	/**
+	 * Getter
+	 * 
+	 * @return the colRepo
+	 */
+	public CollegueRepository getColRepo()
+	{
+		return colRepo;
+	}
+
+	/**
+	 * Setter
+	 * 
+	 * @param colRepo the colRepo to set
+	 */
+	public void setColRepo(CollegueRepository colRepo)
+	{
+		this.colRepo = colRepo;
+	}
 
 	public ColleguePojo ajouterUnCollegue(ColleguePojo collegueAAjouter)
 	{
