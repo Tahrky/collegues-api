@@ -70,7 +70,7 @@ public class CollegueService
 
 	public Collegue modifierEmail(String matricule, String email)
 	{
-		if (colRepo.existsById(matricule))
+		if (!colRepo.existsById(matricule))
 		{
 			throw new CollegueNonTrouveException();
 		}
