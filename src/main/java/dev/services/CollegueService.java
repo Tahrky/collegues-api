@@ -23,114 +23,102 @@ import dev.repository.CollegueRepository;
  * @author BIRABEN-BIANCHI Hugo
  */
 @Service
-public class CollegueService
-{
-	@Autowired
-	private CollegueRepository colRepo;
+public class CollegueService {
+    @Autowired
+    private CollegueRepository colRepo;
 
-	/**
-	 * Getter
-	 * 
-	 * @return the colRepo
-	 */
-	public CollegueRepository getColRepo()
-	{
-		return colRepo;
+    /**
+     * Getter
+     * 
+     * @return the colRepo
+     */
+    public CollegueRepository getColRepo() {
+	return colRepo;
+    }
+
+    /**
+     * Setter
+     * 
+     * @param colRepo the colRepo to set
+     */
+    public void setColRepo(CollegueRepository colRepo) {
+	this.colRepo = colRepo;
+    }
+
+    public ColleguePojo ajouterUnCollegue(ColleguePojo collegueAAjouter) {
+	if (collegueAAjouter.getNom().length() <= 2) {
+	    throw new CollegueInvalideException("Nom invalide, trop court (2 caractères minimums)");
 	}
 
-	/**
-	 * Setter
-	 * 
-	 * @param colRepo the colRepo to set
-	 */
-	public void setColRepo(CollegueRepository colRepo)
-	{
-		this.colRepo = colRepo;
+	if (collegueAAjouter.getPrenoms().length() <= 2) {
+	    throw new CollegueInvalideException("Prénom invalide, trop court (2 caractères minimums)");
 	}
 
-	public ColleguePojo ajouterUnCollegue(ColleguePojo collegueAAjouter)
-	{
-		if (collegueAAjouter.getNom().length() <= 2)
-		{
-			throw new CollegueInvalideException("Nom invalide, trop court (2 caractères minimums)");
-		}
-
-		if (collegueAAjouter.getPrenoms().length() <= 2)
-		{
-			throw new CollegueInvalideException("Prénom invalide, trop court (2 caractères minimums)");
-		}
-
-		if (collegueAAjouter.getEmail().length() <= 3)
-		{
-			throw new CollegueInvalideException("Email invalide, trop court (3 caractères minimums)");
-		}
-
-		if (!collegueAAjouter.getEmail().contains("@"))
-		{
-			throw new CollegueInvalideException("Email invalide, doit contenir un @");
-		}
-
-		LocalDate estMajeur = LocalDate.now();
-		Period period = Period.between(collegueAAjouter.getDateDeNaissance(), estMajeur);
-		if (period.getYears() < 18)
-		{
-			throw new CollegueInvalideException("Vous devez être majeur pour vous inscrire");
-		}
-
-		if (!collegueAAjouter.getPhotoUrl().contains("http"))
-		{
-			throw new CollegueInvalideException(
-					"Url de la photo invalide, doit contenir au moins http en début de lien");
-		}
-
-		collegueAAjouter.setMatricule(UUID.randomUUID().toString());
-		colRepo.save(collegueAAjouter.transformerEnCollegue());
-		return collegueAAjouter;
+	if (collegueAAjouter.getEmail().length() <= 3) {
+	    throw new CollegueInvalideException("Email invalide, trop court (3 caractères minimums)");
 	}
 
-	public Collegue modifierEmail(String matricule, String email)
-	{
-		Collegue collegue = colRepo.findById(matricule).orElseThrow(CollegueNonTrouveException::new);
-
-		if (email.length() <= 3)
-		{
-			throw new CollegueInvalideException("Email invalide, trop court (3 caractères minimums)");
-		}
-
-		if (!email.contains("@"))
-		{
-			throw new CollegueInvalideException("Email invalide, doit contenir un @");
-		}
-
-		collegue.setEmail(email);
-		colRepo.save(collegue);
-
-		return collegue;
+	if (!collegueAAjouter.getEmail().contains("@")) {
+	    throw new CollegueInvalideException("Email invalide, doit contenir un @");
 	}
 
-	public Collegue modifierPhotoUrl(String matricule, String photoUrl)
-	{
-		Collegue collegue = colRepo.findById(matricule).orElseThrow(CollegueNonTrouveException::new);
-
-		if (!photoUrl.contains("http"))
-		{
-			throw new CollegueInvalideException(
-					"Url de la photo invalide, doit contenir au moins http en début de lien");
-		}
-
-		collegue.setPhotoUrl(photoUrl);
-		colRepo.save(collegue);
-
-		return collegue;
+	LocalDate estMajeur = LocalDate.now();
+	Period period = Period.between(collegueAAjouter.getDateDeNaissance(), estMajeur);
+	if (period.getYears() < 18) {
+	    throw new CollegueInvalideException("Vous devez être majeur pour vous inscrire");
 	}
 
-	public List<Collegue> rechercherParNom(String nomRecherche)
-	{
-		return colRepo.findAll().stream().filter(t -> t.getNom().equals(nomRecherche)).collect(Collectors.toList());
+	if (!collegueAAjouter.getPhotoUrl().contains("http")) {
+	    throw new CollegueInvalideException(
+		    "Url de la photo invalide, doit contenir au moins http en début de lien");
 	}
 
-	public Collegue rechercherParMatricule(String matriculeRecherche)
-	{
-		return colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new);
+	collegueAAjouter.setMatricule(UUID.randomUUID().toString());
+	colRepo.save(collegueAAjouter.transformerEnCollegue());
+	return collegueAAjouter;
+    }
+
+    public Collegue modifierEmail(String matricule, String email) {
+	Collegue collegue = colRepo.findById(matricule).orElseThrow(CollegueNonTrouveException::new);
+
+	if (email.length() <= 3) {
+	    throw new CollegueInvalideException("Email invalide, trop court (3 caractères minimums)");
 	}
+
+	if (!email.contains("@")) {
+	    throw new CollegueInvalideException("Email invalide, doit contenir un @");
+	}
+
+	collegue.setEmail(email);
+	colRepo.save(collegue);
+
+	return collegue;
+    }
+
+    public Collegue modifierPhotoUrl(String matricule, String photoUrl) {
+	Collegue collegue = colRepo.findById(matricule).orElseThrow(CollegueNonTrouveException::new);
+
+	if (!photoUrl.contains("http")) {
+	    throw new CollegueInvalideException(
+		    "Url de la photo invalide, doit contenir au moins http en début de lien");
+	}
+
+	collegue.setPhotoUrl(photoUrl);
+	colRepo.save(collegue);
+
+	return collegue;
+    }
+
+    public List<String> rechercherParNom(String nomRecherche) {
+	return colRepo.findAll().stream().filter(t -> t.getNom().equals(nomRecherche)).map(c -> c.getMatricule())
+		.collect(Collectors.toList());
+    }
+
+    public Collegue rechercherParMatricule(String matriculeRecherche) {
+	return colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new);
+    }
+
+    public List<Collegue> rechercherCollegues() {
+	return colRepo.findAll();
+    }
 }

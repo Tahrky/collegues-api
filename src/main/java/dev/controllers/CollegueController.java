@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,46 +29,45 @@ import dev.services.CollegueService;
  */
 @RestController
 @RequestMapping("/collegues")
-public class CollegueController
-{
-	@Autowired
-	private CollegueService collegueService;
+@CrossOrigin
+public class CollegueController {
+    @Autowired
+    private CollegueService collegueService;
 
-	@GetMapping()
-	public List<Collegue> afficherCollegueParNom(@RequestParam("nom") String nomRecherche)
-	{
-		return collegueService.rechercherParNom(nomRecherche);
+    @GetMapping()
+    public List<String> afficherCollegueParNom(@RequestParam("nom") String nomRecherche) {
+	return collegueService.rechercherParNom(nomRecherche);
+    }
+
+    @GetMapping(path = "/{matriculeRecherche}")
+    public Collegue afficherCollegueParMatricule(@PathVariable String matriculeRecherche) {
+	return collegueService.rechercherParMatricule(matriculeRecherche);
+    }
+
+    @GetMapping(path = "/matricules")
+    public List<Collegue> afficherCollegues() {
+	return collegueService.rechercherCollegues();
+    }
+
+    @PostMapping
+    public ResponseEntity<ColleguePojo> ajouterCollegue(@RequestBody ColleguePojo collegueAAjouter) {
+	ColleguePojo collegueTemp = collegueService.ajouterUnCollegue(collegueAAjouter);
+	return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
+    }
+
+    @PatchMapping(path = "/{matriculeRecherche}")
+    public ResponseEntity<Collegue> miseAJourCollegue(@PathVariable String matriculeRecherche,
+	    @RequestBody CollegueACompleter nvCollegue) {
+	Collegue collegueTemp = new Collegue();
+
+	if (nvCollegue.getEmail() != null) {
+	    collegueTemp = collegueService.modifierEmail(matriculeRecherche, nvCollegue.getEmail());
 	}
 
-	@GetMapping(path = "/{matriculeRecherche}")
-	public Collegue afficherCollegueParMatricule(@PathVariable String matriculeRecherche)
-	{
-		return collegueService.rechercherParMatricule(matriculeRecherche);
+	if (nvCollegue.getPhotoUrl() != null) {
+	    collegueTemp = collegueService.modifierPhotoUrl(matriculeRecherche, nvCollegue.getPhotoUrl());
 	}
 
-	@PostMapping
-	public ResponseEntity<ColleguePojo> ajouterCollegue(@RequestBody ColleguePojo collegueAAjouter)
-	{
-		ColleguePojo collegueTemp = collegueService.ajouterUnCollegue(collegueAAjouter);
-		return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
-	}
-
-	@PatchMapping(path = "/{matriculeRecherche}")
-	public ResponseEntity<Collegue> miseAJourCollegue(@PathVariable String matriculeRecherche,
-			@RequestBody CollegueACompleter nvCollegue)
-	{
-		Collegue collegueTemp = new Collegue();
-
-		if (nvCollegue.getEmail() != null)
-		{
-			collegueTemp = collegueService.modifierEmail(matriculeRecherche, nvCollegue.getEmail());
-		}
-
-		if (nvCollegue.getPhotoUrl() != null)
-		{
-			collegueTemp = collegueService.modifierPhotoUrl(matriculeRecherche, nvCollegue.getPhotoUrl());
-		}
-
-		return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
-	}
+	return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
+    }
 }
