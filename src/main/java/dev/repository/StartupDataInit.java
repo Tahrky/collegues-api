@@ -30,9 +30,7 @@ public class StartupDataInit {
 	LocalDate date1 = LocalDate.parse("1950-11-14", DateTimeFormatter.ofPattern(TIME_PATTERN));
 
 	String matriculeTemp = UUID.randomUUID().toString();
-	collegueRepo.save(new Collegue(matriculeTemp, "Bob", "Robert", "a@a.a",
-		"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Red_Brocket_%28Mazama_americana%29_-_Flickr_-_berniedup.jpg/1024px-Red_Brocket_%28Mazama_americana%29_-_Flickr_-_berniedup.jpg",
-		date1));
+	collegueRepo.save(new Collegue(matriculeTemp, "Bob", "Robert", "a@a.a", "https://tinyurl.com/y5m5tzmc", date1));
 
 	matriculeTemp = UUID.randomUUID().toString();
 	collegueRepo.save(new Collegue(matriculeTemp, "Adeline", "Noelle", "b@b.b",
@@ -40,8 +38,7 @@ public class StartupDataInit {
 		date1));
 
 	matriculeTemp = UUID.randomUUID().toString();
-	collegueRepo.save(new Collegue(matriculeTemp, "Bob", "Arthur", "c@c.c",
-		"https://wildplanetphotomagazine.com/wp-content/uploads/2016/09/Pangolin-in-colour.jpg", date1));
+	collegueRepo.save(new Collegue(matriculeTemp, "Bob", "Arthur", "c@c.c", "https://tinyurl.com/y4jpek4r", date1));
 
 	collegueRepo.save(new Collegue("1", "Bobbi", "Albert", "aa@a.a",
 		"https://www.chiens-de-france.com/photo/chiens/2016_08/chiens-Levrier-afghan-4e556834-b145-ab44-fd3e-eacdd072db00.jpg",
