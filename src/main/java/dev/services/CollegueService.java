@@ -46,15 +46,15 @@ public class CollegueService {
     }
 
     public ColleguePojo ajouterUnCollegue(ColleguePojo collegueAAjouter) {
-	if (collegueAAjouter.getNom().length() <= 2) {
+	if (collegueAAjouter.getNom().length() <= 2 && collegueAAjouter.getNom().length() > 255) {
 	    throw new CollegueInvalideException("Nom invalide, trop court (2 caractères minimums)");
 	}
 
-	if (collegueAAjouter.getPrenoms().length() <= 2) {
+	if (collegueAAjouter.getPrenoms().length() <= 2 && collegueAAjouter.getPrenoms().length() > 255) {
 	    throw new CollegueInvalideException("Prénom invalide, trop court (2 caractères minimums)");
 	}
 
-	if (collegueAAjouter.getEmail().length() <= 3) {
+	if (collegueAAjouter.getEmail().length() <= 3 && collegueAAjouter.getEmail().length() > 255) {
 	    throw new CollegueInvalideException("Email invalide, trop court (3 caractères minimums)");
 	}
 
@@ -68,7 +68,7 @@ public class CollegueService {
 	    throw new CollegueInvalideException("Vous devez être majeur pour vous inscrire");
 	}
 
-	if (!collegueAAjouter.getPhotoUrl().contains("http")) {
+	if (!collegueAAjouter.getPhotoUrl().startsWith("http") && collegueAAjouter.getPhotoUrl().length() > 255) {
 	    throw new CollegueInvalideException(
 		    "Url de la photo invalide, doit contenir au moins http en début de lien");
 	}
@@ -98,7 +98,7 @@ public class CollegueService {
     public Collegue modifierPhotoUrl(String matricule, String photoUrl) {
 	Collegue collegue = colRepo.findById(matricule).orElseThrow(CollegueNonTrouveException::new);
 
-	if (!photoUrl.contains("http")) {
+	if (!photoUrl.contains("http") && photoUrl.length() > 255) {
 	    throw new CollegueInvalideException(
 		    "Url de la photo invalide, doit contenir au moins http en début de lien");
 	}
