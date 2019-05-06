@@ -121,4 +121,8 @@ public class CollegueService {
     public List<Collegue> rechercherCollegues() {
 	return colRepo.findAll();
     }
+
+    public boolean existingEmail(String email) {
+	return !colRepo.findByEmail(email).isEmpty();
+    }
 }

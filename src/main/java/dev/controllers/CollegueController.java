@@ -55,6 +55,12 @@ public class CollegueController {
 	return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
     }
 
+    @PostMapping(path = "/verifMail")
+    public ResponseEntity<Boolean> existingEmail(@RequestBody String email) {
+	boolean email1 = collegueService.existingEmail(email);
+	return ResponseEntity.status(HttpStatus.OK).body(email1);
+    }
+
     @PatchMapping(path = "/{matriculeRecherche}")
     public ResponseEntity<Collegue> miseAJourCollegue(@PathVariable String matriculeRecherche,
 	    @RequestBody CollegueACompleter nvCollegue) {
