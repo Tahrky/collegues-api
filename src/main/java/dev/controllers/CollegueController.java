@@ -44,9 +44,14 @@ public class CollegueController {
 	return collegueService.rechercherParMatricule(matriculeRecherche);
     }
 
-    @GetMapping(path = "/matricules")
+    @GetMapping(path = "/collegues")
     public List<Collegue> afficherCollegues() {
 	return collegueService.rechercherCollegues();
+    }
+
+    @GetMapping(path = "/matricules")
+    public List<String> afficherMatricules() {
+	return collegueService.rechercherMatricules();
     }
 
     @PostMapping

@@ -125,4 +125,11 @@ public class CollegueService {
     public boolean existingEmail(String email) {
 	return !colRepo.findByEmail(email).isEmpty();
     }
+
+    /**
+     * @return
+     */
+    public List<String> rechercherMatricules() {
+	return colRepo.findAll().stream().map(collegue -> collegue.getMatricule()).collect(Collectors.toList());
+    }
 }
