@@ -22,6 +22,8 @@ import dev.entities.Collegue;
 import dev.entities.CollegueACompleter;
 import dev.entities.CollegueMatriculePhoto;
 import dev.entities.ColleguePojo;
+import dev.entities.MatriculeNote;
+import dev.entities.NotePojo;
 import dev.services.CollegueService;
 
 /**
@@ -41,7 +43,7 @@ public class CollegueController {
     }
 
     @GetMapping(path = "/{matriculeRecherche}")
-    public Collegue afficherCollegueParMatricule(@PathVariable String matriculeRecherche) {
+    public ColleguePojo afficherCollegueParMatricule(@PathVariable String matriculeRecherche) {
 	return collegueService.rechercherParMatricule(matriculeRecherche);
     }
 
@@ -60,6 +62,11 @@ public class CollegueController {
 	return collegueService.rechercherMatricules();
     }
 
+    @GetMapping(path = "/notes/{matriculeRecherche}")
+    public List<NotePojo> afficherNotesParMatricule(@PathVariable String matriculeRecherche) {
+	return collegueService.rechercherNotesParMatricules(matriculeRecherche);
+    }
+
     @PostMapping
     public ResponseEntity<ColleguePojo> ajouterCollegue(@RequestBody ColleguePojo collegueAAjouter) {
 	ColleguePojo collegueTemp = collegueService.ajouterUnCollegue(collegueAAjouter);
@@ -70,6 +77,12 @@ public class CollegueController {
     public ResponseEntity<Boolean> existingEmail(@RequestBody String email) {
 	boolean email1 = collegueService.existingEmail(email);
 	return ResponseEntity.status(HttpStatus.OK).body(email1);
+    }
+
+    @PostMapping(path = "/ajoutNote")
+    public ResponseEntity<Boolean> ajoutNote(@RequestBody MatriculeNote collegue) {
+	boolean ajout = collegueService.ajoutNote(collegue);
+	return ResponseEntity.status(HttpStatus.OK).body(ajout);
     }
 
     @PatchMapping(path = "/{matriculeRecherche}")

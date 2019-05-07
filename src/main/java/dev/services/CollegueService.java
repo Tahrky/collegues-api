@@ -15,9 +15,13 @@ import org.springframework.stereotype.Service;
 import dev.entities.Collegue;
 import dev.entities.CollegueMatriculePhoto;
 import dev.entities.ColleguePojo;
+import dev.entities.MatriculeNote;
+import dev.entities.Note;
+import dev.entities.NotePojo;
 import dev.exception.CollegueInvalideException;
 import dev.exception.CollegueNonTrouveException;
 import dev.repository.CollegueRepository;
+import dev.repository.NoteRepository;
 
 /**
  *
@@ -27,6 +31,9 @@ import dev.repository.CollegueRepository;
 public class CollegueService {
     @Autowired
     private CollegueRepository colRepo;
+
+    @Autowired
+    private NoteRepository noteRepo;
 
     /**
      * Getter
@@ -115,8 +122,10 @@ public class CollegueService {
 		.collect(Collectors.toList());
     }
 
-    public Collegue rechercherParMatricule(String matriculeRecherche) {
-	return colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new);
+    public ColleguePojo rechercherParMatricule(String matriculeRecherche) {
+	Collegue col = colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new);
+	return new ColleguePojo(col.getMatricule(), col.getNom(), col.getPrenoms(), col.getEmail(), col.getPhotoUrl(),
+		col.getDateDeNaissance());
     }
 
     public List<Collegue> rechercherCollegues() {
@@ -143,4 +152,28 @@ public class CollegueService {
 		.map(collegue -> new CollegueMatriculePhoto(collegue.getMatricule(), collegue.getPhotoUrl()))
 		.collect(Collectors.toList());
     }
+
+    public boolean ajoutNote(MatriculeNote collegue) {
+	Note noteTemp = new Note(collegue.getMessageNote());
+
+	Collegue colTemp = colRepo.findById(collegue.getMatricule()).orElseThrow(CollegueNonTrouveException::new);
+	noteTemp.setCollegue(colTemp);
+	colTemp.addNote(noteTemp);
+	colRepo.save(colTemp);
+	noteRepo.save(noteTemp);
+
+	return colRepo.findById(collegue.getMatricule()).orElseThrow(CollegueNonTrouveException::new).addNote(noteTemp);
+    }
+
+    /**
+     * @param matriculeRecherche
+     * @return
+     */
+    public List<NotePojo> rechercherNotesParMatricules(String matriculeRecherche) {
+	System.out.println(
+		colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new).noteToNotePojo());
+
+	return colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new).noteToNotePojo();
+    }
+
 }

@@ -4,10 +4,13 @@
 package dev.entities;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 /**
@@ -31,6 +34,26 @@ public class Collegue {
     String photoUrl;
     @Column
     LocalDate dateDeNaissance;
+
+    @OneToMany(mappedBy = "collegue")
+    private List<Note> noteTab;
+
+    public boolean addNote(Note note) {
+	int tailleList = noteTab.size();
+	this.noteTab.add(note);
+
+	boolean retour = false;
+	if (tailleList < noteTab.size()) {
+	    retour = true;
+	}
+
+	return retour;
+    }
+
+    public List<NotePojo> noteToNotePojo() {
+	return noteTab.stream().map(note -> new NotePojo(note.getId(), note.getMessage(), note.getDate()))
+		.collect(Collectors.toList());
+    }
 
     public Collegue() {
     }
@@ -161,6 +184,24 @@ public class Collegue {
      */
     public void setPhotoUrl(String photoUrl) {
 	this.photoUrl = photoUrl;
+    }
+
+    /**
+     * Getter
+     * 
+     * @return the noteTab
+     */
+    public List<Note> getNoteTab() {
+	return noteTab;
+    }
+
+    /**
+     * Setter
+     * 
+     * @param noteTab the noteTab to set
+     */
+    public void setNoteTab(List<Note> noteTab) {
+	this.noteTab = noteTab;
     }
 
 }
