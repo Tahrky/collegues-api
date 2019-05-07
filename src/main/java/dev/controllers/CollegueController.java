@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import dev.entities.Collegue;
 import dev.entities.CollegueACompleter;
+import dev.entities.CollegueMatriculePhoto;
 import dev.entities.ColleguePojo;
 import dev.services.CollegueService;
 
@@ -47,6 +48,11 @@ public class CollegueController {
     @GetMapping(path = "/collegues")
     public List<Collegue> afficherCollegues() {
 	return collegueService.rechercherCollegues();
+    }
+
+    @GetMapping(path = "/photos")
+    public List<CollegueMatriculePhoto> afficherPhotosEtMatricules() {
+	return collegueService.rechercherGallerie();
     }
 
     @GetMapping(path = "/matricules")

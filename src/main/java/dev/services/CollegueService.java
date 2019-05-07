@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.entities.Collegue;
+import dev.entities.CollegueMatriculePhoto;
 import dev.entities.ColleguePojo;
 import dev.exception.CollegueInvalideException;
 import dev.exception.CollegueNonTrouveException;
@@ -110,7 +111,7 @@ public class CollegueService {
     }
 
     public List<String> rechercherParNom(String nomRecherche) {
-	return colRepo.findAll().stream().filter(t -> t.getNom().equals(nomRecherche)).map(c -> c.getMatricule())
+	return colRepo.findAll().stream().filter(t -> t.getNom().equals(nomRecherche)).map(Collegue::getMatricule)
 		.collect(Collectors.toList());
     }
 
@@ -130,6 +131,16 @@ public class CollegueService {
      * @return
      */
     public List<String> rechercherMatricules() {
-	return colRepo.findAll().stream().map(collegue -> collegue.getMatricule()).collect(Collectors.toList());
+	return colRepo.findAll().stream().map(Collegue::getMatricule).collect(Collectors.toList());
+    }
+
+    /**
+     * @return
+     */
+    public List<CollegueMatriculePhoto> rechercherGallerie() {
+
+	return colRepo.findAll().stream()
+		.map(collegue -> new CollegueMatriculePhoto(collegue.getMatricule(), collegue.getPhotoUrl()))
+		.collect(Collectors.toList());
     }
 }
