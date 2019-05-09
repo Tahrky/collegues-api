@@ -11,6 +11,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 /**
@@ -37,6 +38,9 @@ public class Collegue {
 
     @OneToMany(mappedBy = "collegue")
     private List<Note> noteTab;
+    
+    @OneToOne (mappedBy="collegue")
+    Utilisateur utilisateur;
 
     public boolean addNote(Note note) {
 	int tailleList = noteTab.size();

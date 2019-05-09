@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -57,6 +58,7 @@ public class CollegueController {
 	return collegueService.rechercherGallerie();
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping(path = "/matricules")
     public List<String> afficherMatricules() {
 	return collegueService.rechercherMatricules();
@@ -67,6 +69,7 @@ public class CollegueController {
 	return collegueService.rechercherNotesParMatricules(matriculeRecherche);
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<ColleguePojo> ajouterCollegue(@RequestBody ColleguePojo collegueAAjouter) {
 	ColleguePojo collegueTemp = collegueService.ajouterUnCollegue(collegueAAjouter);
@@ -91,6 +94,7 @@ public class CollegueController {
 	return ResponseEntity.status(HttpStatus.OK).body(true);
     }
 
+    @Secured("ROLE_ADMIN")
     @PatchMapping(path = "/{matriculeRecherche}")
     public ResponseEntity<ColleguePojo> miseAJourCollegue(@PathVariable String matriculeRecherche,
 	    @RequestBody CollegueACompleter nvCollegue) {
