@@ -172,9 +172,6 @@ public class CollegueService {
      * @return
      */
     public List<NotePojo> rechercherNotesParMatricules(String matriculeRecherche) {
-	System.out.println(
-		colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new).noteToNotePojo());
-
 	return colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new).noteToNotePojo();
     }
 
