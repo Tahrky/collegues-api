@@ -85,6 +85,12 @@ public class CollegueController {
 	return ResponseEntity.status(HttpStatus.OK).body(ajout);
     }
 
+    @PostMapping(path = "/supprNote")
+    public ResponseEntity<Boolean> supprNote(@RequestBody int id) {
+	collegueService.supprNote(id);
+	return ResponseEntity.status(HttpStatus.OK).body(true);
+    }
+
     @PatchMapping(path = "/{matriculeRecherche}")
     public ResponseEntity<ColleguePojo> miseAJourCollegue(@PathVariable String matriculeRecherche,
 	    @RequestBody CollegueACompleter nvCollegue) {

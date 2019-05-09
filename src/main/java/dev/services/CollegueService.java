@@ -175,4 +175,8 @@ public class CollegueService {
 	return colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new).noteToNotePojo();
     }
 
+    public void supprNote(int id) {
+	noteRepo.deleteById(id);
+    }
+
 }
