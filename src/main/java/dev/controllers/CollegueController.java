@@ -48,7 +48,7 @@ public class CollegueController {
     }
 
     @GetMapping(path = "/collegues")
-    public List<Collegue> afficherCollegues() {
+    public List<ColleguePojo> afficherCollegues() {
 	return collegueService.rechercherCollegues();
     }
 
@@ -86,7 +86,7 @@ public class CollegueController {
     }
 
     @PatchMapping(path = "/{matriculeRecherche}")
-    public ResponseEntity<Collegue> miseAJourCollegue(@PathVariable String matriculeRecherche,
+    public ResponseEntity<ColleguePojo> miseAJourCollegue(@PathVariable String matriculeRecherche,
 	    @RequestBody CollegueACompleter nvCollegue) {
 	Collegue collegueTemp = new Collegue();
 
@@ -98,6 +98,10 @@ public class CollegueController {
 	    collegueTemp = collegueService.modifierPhotoUrl(matriculeRecherche, nvCollegue.getPhotoUrl());
 	}
 
-	return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
+	ColleguePojo colleguePojo = new ColleguePojo(collegueTemp.getMatricule(), collegueTemp.getNom(),
+		collegueTemp.getPrenoms(), collegueTemp.getEmail(), collegueTemp.getPhotoUrl(),
+		collegueTemp.getDateDeNaissance());
+
+	return ResponseEntity.status(HttpStatus.OK).body(colleguePojo);
     }
 }

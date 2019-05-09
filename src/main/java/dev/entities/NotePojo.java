@@ -3,7 +3,7 @@
  */
 package dev.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -12,13 +12,13 @@ import java.time.LocalDate;
 public class NotePojo {
     private int id;
     private String message;
-    private LocalDate date;
+    private LocalDateTime date;
 
     public NotePojo() {
 
     }
 
-    public NotePojo(int id, String message, LocalDate date) {
+    public NotePojo(int id, String message, LocalDateTime date) {
 	super();
 	this.id = id;
 	this.message = message;
@@ -66,7 +66,7 @@ public class NotePojo {
      * 
      * @return the date
      */
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
 	return date;
     }
 
@@ -75,7 +75,7 @@ public class NotePojo {
      * 
      * @param date the date to set
      */
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
 	this.date = date;
     }
 }

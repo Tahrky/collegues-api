@@ -3,7 +3,7 @@
  */
 package dev.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,7 +24,7 @@ public class Note {
     @Column
     private String message;
     @Column
-    private LocalDate date;
+    private LocalDateTime date;
 
     @ManyToOne
     private Collegue collegue;
@@ -36,7 +36,7 @@ public class Note {
     public Note(String message) {
 	super();
 	this.message = message;
-	this.date = LocalDate.now();
+	this.date = LocalDateTime.now();
     }
 
     /**
@@ -80,7 +80,7 @@ public class Note {
      * 
      * @return the date
      */
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
 	return date;
     }
 
@@ -89,7 +89,7 @@ public class Note {
      * 
      * @param date the date to set
      */
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
 	this.date = date;
     }
 

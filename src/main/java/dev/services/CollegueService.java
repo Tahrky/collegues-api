@@ -128,8 +128,10 @@ public class CollegueService {
 		col.getDateDeNaissance());
     }
 
-    public List<Collegue> rechercherCollegues() {
-	return colRepo.findAll();
+    public List<ColleguePojo> rechercherCollegues() {
+	return colRepo.findAll().stream().map(col -> new ColleguePojo(col.getMatricule(), col.getNom(),
+		col.getPrenoms(), col.getEmail(), col.getPhotoUrl(), col.getDateDeNaissance()))
+		.collect(Collectors.toList());
     }
 
     public boolean existingEmail(String email) {
