@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import dev.entities.Utilisateur;
+import dev.entities.UtilisateurSession;
 import dev.repository.UtilisateurRepository;
 
 /**
@@ -28,16 +28,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		this.utilisateurRepository = utilisateurRepository;
 	}
 
-	// cette méthode va permettre à Spring Security d'avoir accès
-	// aux informations d'un utilisateur (mot de passe, roles) à partir
-	// d'un nom utilisateur
-	//
-	// L'interface UserDetails détaille le contrat attendu par Spring Security.
+	/** cette méthode va permettre à Spring Security d'avoir accès
+	* aux informations d'un utilisateur (mot de passe, roles) à partir
+	* d'un nom utilisateur.
+	* L'interface UserDetails détaille le contrat attendu par Spring Security. */
 	@Override
 	public UserDetails loadUserByUsername(String email) {
 
-		// Recherche d'utilisateur par nom utilisateur
-		Utilisateur utilisateurTrouve = this.utilisateurRepository.findByCollegueEmail(email).orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
+		// Recherche d'utilisateur par son email (qui est l'identifiant d'un utilisateur)
+		UtilisateurSession utilisateurTrouve = this.utilisateurRepository.findByCollegueEmail(email).orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé"));
 
 		// Création d'un objet User (implémentant UserDetails)
 		return new User(utilisateurTrouve.getCollegue().getEmail(), utilisateurTrouve.getMotDePasse(), utilisateurTrouve.getRoles().stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));

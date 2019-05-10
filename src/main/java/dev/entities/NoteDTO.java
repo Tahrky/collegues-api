@@ -9,16 +9,16 @@ import java.time.LocalDateTime;
  *
  * @author BIRABEN-BIANCHI Hugo
  */
-public class NotePojo {
+public class NoteDTO {
     private int id;
     private String message;
     private LocalDateTime date;
 
-    public NotePojo() {
+    public NoteDTO() {
 
     }
 
-    public NotePojo(int id, String message, LocalDateTime date) {
+    public NoteDTO(int id, String message, LocalDateTime date) {
 	super();
 	this.id = id;
 	this.message = message;

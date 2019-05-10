@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import dev.entities.Collegue;
-import dev.entities.ColleguePojo;
+import dev.entities.CollegueDTO;
 import dev.exception.CollegueInvalideException;
 import dev.exception.CollegueNonTrouveException;
 import dev.repository.CollegueRepository;
@@ -44,28 +44,28 @@ public class CollegueServiceTest
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_NomTropCourt()
 	{
-		ColleguePojo temp = new ColleguePojo("a", prenomCorrect, emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect);
+		CollegueDTO temp = new CollegueDTO("a", prenomCorrect, emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect);
 		colServ.ajouterUnCollegue(temp);
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_PrenomTropCourt()
 	{
-		ColleguePojo temp = new ColleguePojo(nomCorrect, "b", emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect);
+		CollegueDTO temp = new CollegueDTO(nomCorrect, "b", emailCorrect, photoUrlCorrect, dateDeNaissanceCorrect);
 		colServ.ajouterUnCollegue(temp);
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_EmailTropCourt()
 	{
-		ColleguePojo temp = new ColleguePojo(nomCorrect, prenomCorrect, "a@", photoUrlCorrect, dateDeNaissanceCorrect);
+		CollegueDTO temp = new CollegueDTO(nomCorrect, prenomCorrect, "a@", photoUrlCorrect, dateDeNaissanceCorrect);
 		colServ.ajouterUnCollegue(temp);
 	}
 
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_EmailSansArobase()
 	{
-		ColleguePojo temp = new ColleguePojo(nomCorrect, prenomCorrect, "arthur.com", photoUrlCorrect,
+		CollegueDTO temp = new CollegueDTO(nomCorrect, prenomCorrect, "arthur.com", photoUrlCorrect,
 				dateDeNaissanceCorrect);
 		colServ.ajouterUnCollegue(temp);
 	}
@@ -73,7 +73,7 @@ public class CollegueServiceTest
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_photoUrlSansHttp()
 	{
-		ColleguePojo temp = new ColleguePojo(nomCorrect, prenomCorrect, emailCorrect, "photo.com",
+		CollegueDTO temp = new CollegueDTO(nomCorrect, prenomCorrect, emailCorrect, "photo.com",
 				dateDeNaissanceCorrect);
 		colServ.ajouterUnCollegue(temp);
 	}
@@ -81,7 +81,7 @@ public class CollegueServiceTest
 	@Test(expected = CollegueInvalideException.class)
 	public void ajouterUnCollegue_pasMajeur()
 	{
-		ColleguePojo temp = new ColleguePojo(nomCorrect, prenomCorrect, emailCorrect, photoUrlCorrect, LocalDate.now());
+		CollegueDTO temp = new CollegueDTO(nomCorrect, prenomCorrect, emailCorrect, photoUrlCorrect, LocalDate.now());
 		colServ.ajouterUnCollegue(temp);
 	}
 

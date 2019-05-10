@@ -9,7 +9,7 @@ import java.time.LocalDate;
  *
  * @author BIRABEN-BIANCHI Hugo
  */
-public class ColleguePojo
+public class CollegueDTO
 {
 	static final String TIME_PATTERN = "yyyy-MM-d";
 
@@ -25,11 +25,11 @@ public class ColleguePojo
 		return new Collegue(matricule, nom, prenoms, email, photoUrl, dateDeNaissance);
 	}
 
-	public ColleguePojo()
+	public CollegueDTO()
 	{
 	}
 
-	public ColleguePojo(String nom, String prenoms, String email, String photoUrl, LocalDate dateDeNaissance)
+	public CollegueDTO(String nom, String prenoms, String email, String photoUrl, LocalDate dateDeNaissance)
 	{
 		super();
 		this.nom = nom;
@@ -39,7 +39,7 @@ public class ColleguePojo
 		this.photoUrl = photoUrl;
 	}
 
-	public ColleguePojo(String matricule, String nom, String prenoms, String email, String photoUrl,
+	public CollegueDTO(String matricule, String nom, String prenoms, String email, String photoUrl,
 			LocalDate dateDeNaissance)
 	{
 		super();

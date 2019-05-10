@@ -13,11 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import dev.entities.Collegue;
+import dev.entities.CollegueDTO;
+import dev.entities.CollegueMatriculeNote;
 import dev.entities.CollegueMatriculePhoto;
-import dev.entities.ColleguePojo;
-import dev.entities.MatriculeNote;
 import dev.entities.Note;
-import dev.entities.NotePojo;
+import dev.entities.NoteDTO;
 import dev.exception.CollegueInvalideException;
 import dev.exception.CollegueNonTrouveException;
 import dev.repository.CollegueRepository;
@@ -53,7 +53,7 @@ public class CollegueService {
 	this.colRepo = colRepo;
     }
 
-    public ColleguePojo ajouterUnCollegue(ColleguePojo collegueAAjouter) {
+    public CollegueDTO ajouterUnCollegue(CollegueDTO collegueAAjouter) {
 	if (collegueAAjouter.getNom().length() <= 2 && collegueAAjouter.getNom().length() > 255) {
 	    throw new CollegueInvalideException("Nom invalide, trop court (2 caractères minimums)");
 	}
@@ -86,7 +86,7 @@ public class CollegueService {
 	return collegueAAjouter;
     }
 
-    public Collegue modifierEmail(String matricule, String email) {
+    public CollegueDTO modifierEmail(String matricule, String email) {
 	Collegue collegue = colRepo.findById(matricule).orElseThrow(CollegueNonTrouveException::new);
 
 	if (email.length() <= 3) {
@@ -100,10 +100,11 @@ public class CollegueService {
 	collegue.setEmail(email);
 	colRepo.save(collegue);
 
-	return collegue;
+	return new CollegueDTO(collegue.getMatricule(), collegue.getNom(), collegue.getPrenoms(), collegue.getEmail(), collegue.getPhotoUrl(),
+		collegue.getDateDeNaissance());
     }
 
-    public Collegue modifierPhotoUrl(String matricule, String photoUrl) {
+    public CollegueDTO modifierPhotoUrl(String matricule, String photoUrl) {
 	Collegue collegue = colRepo.findById(matricule).orElseThrow(CollegueNonTrouveException::new);
 
 	if (!photoUrl.contains("http") && photoUrl.length() > 255) {
@@ -114,7 +115,8 @@ public class CollegueService {
 	collegue.setPhotoUrl(photoUrl);
 	colRepo.save(collegue);
 
-	return collegue;
+	return new CollegueDTO(collegue.getMatricule(), collegue.getNom(), collegue.getPrenoms(), collegue.getEmail(), collegue.getPhotoUrl(),
+		collegue.getDateDeNaissance());
     }
 
     public List<String> rechercherParNom(String nomRecherche) {
@@ -122,27 +124,27 @@ public class CollegueService {
 		.collect(Collectors.toList());
     }
 
-    public ColleguePojo rechercherParMatricule(String matriculeRecherche) {
+    public CollegueDTO rechercherParMatricule(String matriculeRecherche) {
 	Collegue col = colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new);
-	return new ColleguePojo(col.getMatricule(), col.getNom(), col.getPrenoms(), col.getEmail(), col.getPhotoUrl(),
+	return new CollegueDTO(col.getMatricule(), col.getNom(), col.getPrenoms(), col.getEmail(), col.getPhotoUrl(),
 		col.getDateDeNaissance());
     }
 
-    public List<ColleguePojo> rechercherCollegues() {
-	return colRepo.findAll().stream().map(col -> new ColleguePojo(col.getMatricule(), col.getNom(),
+    public List<CollegueDTO> rechercherCollegues() {
+	return colRepo.findAll().stream().map(col -> new CollegueDTO(col.getMatricule(), col.getNom(),
 		col.getPrenoms(), col.getEmail(), col.getPhotoUrl(), col.getDateDeNaissance()))
 		.collect(Collectors.toList());
     }
-
-    public boolean existingEmail(String email) {
-	return !colRepo.findByEmail(email).isEmpty();
-    }
-
+    
     /**
      * @return
      */
     public List<String> rechercherMatricules() {
 	return colRepo.findAll().stream().map(Collegue::getMatricule).collect(Collectors.toList());
+    }
+
+    public boolean existingEmail(String email) {
+	return !colRepo.findByEmail(email).isEmpty();
     }
 
     /**
@@ -155,7 +157,7 @@ public class CollegueService {
 		.collect(Collectors.toList());
     }
 
-    public boolean ajoutNote(MatriculeNote collegue) {
+    public boolean ajoutNote(CollegueMatriculeNote collegue) {
 	Note noteTemp = new Note(collegue.getMessageNote());
 
 	Collegue colTemp = colRepo.findById(collegue.getMatricule()).orElseThrow(CollegueNonTrouveException::new);
@@ -171,7 +173,7 @@ public class CollegueService {
      * @param matriculeRecherche
      * @return
      */
-    public List<NotePojo> rechercherNotesParMatricules(String matriculeRecherche) {
+    public List<NoteDTO> rechercherNotesParMatricules(String matriculeRecherche) {
 	return colRepo.findById(matriculeRecherche).orElseThrow(CollegueNonTrouveException::new).noteToNotePojo();
     }
 

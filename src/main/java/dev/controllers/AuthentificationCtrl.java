@@ -47,6 +47,7 @@ public class AuthentificationCtrl {
   @Autowired
   private AuthenticationManager authenticationManager;
 
+  // Permet de s'authentifier, en générant un cookie pour maintenir la session en cours
   @PostMapping(value = "/auth")
   public ResponseEntity authenticate(@RequestBody InfosAuthentification authenticationRequest, HttpServletResponse response) {
     // encapsulation des informations de connexion

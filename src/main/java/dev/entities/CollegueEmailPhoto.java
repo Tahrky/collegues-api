@@ -7,7 +7,7 @@ package dev.entities;
  *
  * @author BIRABEN-BIANCHI Hugo
  */
-public class CollegueACompleter
+public class CollegueEmailPhoto
 {
 	private String email;
 	private String photoUrl;

@@ -21,7 +21,7 @@ import javax.persistence.OneToOne;
  * @author BIRABEN-BIANCHI Hugo
  */
 @Entity
-public class Utilisateur {
+public class UtilisateurSession {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,10 +37,10 @@ public class Utilisateur {
 	Collegue collegue;
 	
 	  
-	public Utilisateur() {
+	public UtilisateurSession() {
 	}
   
-	public Utilisateur(Collegue collegue, String motDePasse, List<String> roles) {
+	public UtilisateurSession(Collegue collegue, String motDePasse, List<String> roles) {
 		super();
 		this.motDePasse = motDePasse;
 		this.roles = roles;

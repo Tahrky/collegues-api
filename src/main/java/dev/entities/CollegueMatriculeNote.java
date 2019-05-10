@@ -7,15 +7,15 @@ package dev.entities;
  *
  * @author BIRABEN-BIANCHI Hugo
  */
-public class MatriculeNote {
+public class CollegueMatriculeNote {
     String matricule;
     String messageNote;
 
-    public MatriculeNote() {
+    public CollegueMatriculeNote() {
 
     }
 
-    public MatriculeNote(String matricule, String messageNote) {
+    public CollegueMatriculeNote(String matricule, String messageNote) {
 	super();
 	this.matricule = matricule;
 	this.messageNote = messageNote;

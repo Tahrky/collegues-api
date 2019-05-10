@@ -45,15 +45,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
-      .csrf().disable()
-      .authorizeRequests()
-      .antMatchers("/collegues/**").permitAll()
-	  .antMatchers("/auth").permitAll()
-      .anyRequest().authenticated()
-      .and().headers().frameOptions().disable()
-      .and().addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-      .logout()
-      .logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpStatus.OK.value()))
-      .deleteCookies(TOKEN_COOKIE);
+      	.csrf().disable()
+      	.authorizeRequests()
+      	.antMatchers("/collegues/**").permitAll()
+      	.antMatchers("/auth").permitAll()
+      	.anyRequest().authenticated()
+      	.and().headers().frameOptions().disable()
+      	.and().addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+      	.logout()
+      	.logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpStatus.OK.value()))
+      	.deleteCookies(TOKEN_COOKIE);
   }
 }

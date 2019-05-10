@@ -40,7 +40,7 @@ public class Collegue {
     private List<Note> noteTab;
     
     @OneToOne (mappedBy="collegue")
-    Utilisateur utilisateur;
+    UtilisateurSession utilisateur;
 
     public boolean addNote(Note note) {
 	int tailleList = noteTab.size();
@@ -54,8 +54,8 @@ public class Collegue {
 	return retour;
     }
 
-    public List<NotePojo> noteToNotePojo() {
-	return noteTab.stream().map(note -> new NotePojo(note.getId(), note.getMessage(), note.getDate()))
+    public List<NoteDTO> noteToNotePojo() {
+	return noteTab.stream().map(note -> new NoteDTO(note.getId(), note.getMessage(), note.getDate()))
 		.collect(Collectors.toList());
     }
 

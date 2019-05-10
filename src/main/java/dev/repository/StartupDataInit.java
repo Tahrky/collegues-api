@@ -15,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import dev.entities.Collegue;
-import dev.entities.Utilisateur;
+import dev.entities.UtilisateurSession;
 
 /**
  *
@@ -83,7 +83,7 @@ public class StartupDataInit {
 			"https://www.enviesanimales.fr/img/cms/Page%20Guides%20&%20conseils/TT/TT%20faite%20pour%20moi/Tortue%20maison.jpg",
 			date1));
 		
-		utilisateurRepository.save(new Utilisateur(collegueRepo.findById("1").orElseThrow(Error::new), passwordEncoder.encode("pass1"), Arrays.asList("ROLE_ADMIN", "ROLE_USER")));
-        utilisateurRepository.save(new Utilisateur(collegueRepo.findById("2").orElseThrow(Error::new),  passwordEncoder.encode("pass2"), Arrays.asList("ROLE_USER")));
+		utilisateurRepository.save(new UtilisateurSession(collegueRepo.findById("1").orElseThrow(Error::new), passwordEncoder.encode("pass1"), Arrays.asList("ROLE_ADMIN", "ROLE_USER")));
+        utilisateurRepository.save(new UtilisateurSession(collegueRepo.findById("2").orElseThrow(Error::new),  passwordEncoder.encode("pass2"), Arrays.asList("ROLE_USER")));
     }
 }
