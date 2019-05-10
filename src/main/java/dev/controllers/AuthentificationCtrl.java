@@ -19,13 +19,19 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.entities.CollegueMatriculeNomPrenomsRoles;
 import dev.entities.InfosAuthentification;
+import dev.entities.UtilisateurSession;
+import dev.exception.CollegueNonTrouveException;
+import dev.repository.UtilisateurRepository;
 import io.jsonwebtoken.Jwts;
 
 /**
@@ -47,6 +53,9 @@ public class AuthentificationCtrl {
 
   @Autowired
   private AuthenticationManager authenticationManager;
+  
+  @Autowired
+  private UtilisateurRepository utilisateurRepository;
 
   // Permet de s'authentifier, en générant un cookie pour maintenir la session en cours
   @PostMapping(value = "/auth")
@@ -57,7 +66,6 @@ public class AuthentificationCtrl {
     // vérification de l'authentification
     // une exception de type `BadCredentialsException` en cas d'informations non valides
     Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
 
     User user = (User) authentication.getPrincipal();
 
@@ -80,9 +88,13 @@ public class AuthentificationCtrl {
     response.addCookie(authCookie);
 
     return ResponseEntity.ok().build();
-
   }
-
+  
+  @GetMapping(value = "/me")
+  public CollegueMatriculeNomPrenomsRoles getMe () {
+	  UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
+	  return new CollegueMatriculeNomPrenomsRoles(col.getCollegue().getMatricule(), col.getCollegue().getNom(), col.getCollegue().getPrenoms(), col.getRoles());
+  }
 
   @ExceptionHandler(BadCredentialsException.class)
   public ResponseEntity mauvaiseInfosConnexion(BadCredentialsException e) {
