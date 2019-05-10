@@ -33,6 +33,7 @@ import io.jsonwebtoken.Jwts;
  * @author BIRABEN-BIANCHI Hugo
  */
 @RestController
+//@CrossOrigin(origins= {"http://localhost:4200", "https://tahrky.github.io" }, allowCredentials = "true")
 public class AuthentificationCtrl {
 
   @Value("${jwt.expires_in}")
