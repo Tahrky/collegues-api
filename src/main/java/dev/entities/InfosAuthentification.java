@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.entities;
 
@@ -9,23 +9,23 @@ package dev.entities;
  */
 public class InfosAuthentification {
 
-	  private String email;
+    private String email;
 
-	  private String motDePasse;
+    private String motDePasse;
 
-	  public String getEmail() {
-	    return email;
-	  }
+    public String getEmail() {
+	return email;
+    }
 
-	  public void setEmail(String nomUtilisateur) {
-	    this.email = nomUtilisateur;
-	  }
+    public void setEmail(String nomUtilisateur) {
+	this.email = nomUtilisateur;
+    }
 
-	  public String getMotDePasse() {
-	    return motDePasse;
-	  }
+    public String getMotDePasse() {
+	return motDePasse;
+    }
 
-	  public void setMotDePasse(String motDePasse) {
-	    this.motDePasse = motDePasse;
-	  }
-	}
+    public void setMotDePasse(String motDePasse) {
+	this.motDePasse = motDePasse;
+    }
+}

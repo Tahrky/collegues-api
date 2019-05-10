@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.entities;
 
@@ -41,7 +41,7 @@ public class Note {
 
     /**
      * Getter
-     * 
+     *
      * @return the id
      */
     public int getId() {
@@ -50,7 +50,7 @@ public class Note {
 
     /**
      * Setter
-     * 
+     *
      * @param id the id to set
      */
     public void setId(int id) {
@@ -59,7 +59,7 @@ public class Note {
 
     /**
      * Getter
-     * 
+     *
      * @return the message
      */
     public String getMessage() {
@@ -68,7 +68,7 @@ public class Note {
 
     /**
      * Setter
-     * 
+     *
      * @param message the message to set
      */
     public void setMessage(String message) {
@@ -77,7 +77,7 @@ public class Note {
 
     /**
      * Getter
-     * 
+     *
      * @return the date
      */
     public LocalDateTime getDate() {
@@ -86,7 +86,7 @@ public class Note {
 
     /**
      * Setter
-     * 
+     *
      * @param date the date to set
      */
     public void setDate(LocalDateTime date) {
@@ -95,7 +95,7 @@ public class Note {
 
     /**
      * Getter
-     * 
+     *
      * @return the collegue
      */
     public Collegue getCollegue() {
@@ -104,7 +104,7 @@ public class Note {
 
     /**
      * Setter
-     * 
+     *
      * @param collegue the collegue to set
      */
     public void setCollegue(Collegue collegue) {

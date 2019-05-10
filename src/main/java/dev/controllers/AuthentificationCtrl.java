@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.controllers;
 
@@ -42,63 +42,63 @@ import io.jsonwebtoken.Jwts;
 //@CrossOrigin(origins= {"http://localhost:4200", "https://tahrky.github.io" }, allowCredentials = "true")
 public class AuthentificationCtrl {
 
-  @Value("${jwt.expires_in}")
-  private Integer EXPIRES_IN;
+    @Value("${jwt.expires_in}")
+    private Integer EXPIRES_IN;
 
-  @Value("${jwt.cookie}")
-  private String TOKEN_COOKIE;
+    @Value("${jwt.cookie}")
+    private String TOKEN_COOKIE;
 
-  @Value("${jwt.secret}")
-  private String SECRET;
+    @Value("${jwt.secret}")
+    private String SECRET;
 
-  @Autowired
-  private AuthenticationManager authenticationManager;
-  
-  @Autowired
-  private UtilisateurRepository utilisateurRepository;
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
-  // Permet de s'authentifier, en générant un cookie pour maintenir la session en cours
-  @PostMapping(value = "/auth")
-  public ResponseEntity authenticate(@RequestBody InfosAuthentification authenticationRequest, HttpServletResponse response) {
-    // encapsulation des informations de connexion
-    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getMotDePasse());
+    @Autowired
+    private UtilisateurRepository utilisateurRepository;
 
-    // vérification de l'authentification
-    // une exception de type `BadCredentialsException` en cas d'informations non valides
-    Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+    // Permet de s'authentifier, en générant un cookie pour maintenir la session en cours
+    @PostMapping(value = "/auth")
+    public ResponseEntity authenticate(@RequestBody InfosAuthentification authenticationRequest, HttpServletResponse response) {
+	// encapsulation des informations de connexion
+	UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getMotDePasse());
 
-    User user = (User) authentication.getPrincipal();
+	// vérification de l'authentification
+	// une exception de type `BadCredentialsException` en cas d'informations non valides
+	Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
 
-    String rolesList = user.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.joining(","));
+	User user = (User) authentication.getPrincipal();
 
-    Map<String, Object> infosSupplementaireToken = new HashMap<>();
-    infosSupplementaireToken.put("roles", rolesList);
+	String rolesList = user.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.joining(","));
 
-    String jetonJWT = Jwts.builder()
-      .setSubject(user.getUsername())
-      .addClaims(infosSupplementaireToken)
-      .setExpiration(new Date(System.currentTimeMillis() + EXPIRES_IN * 1000))
-      .signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, SECRET)
-      .compact();
+	Map<String, Object> infosSupplementaireToken = new HashMap<>();
+	infosSupplementaireToken.put("roles", rolesList);
 
-    Cookie authCookie = new Cookie(TOKEN_COOKIE, jetonJWT);
-    authCookie.setHttpOnly(true);
-    authCookie.setMaxAge(EXPIRES_IN * 1000);
-    authCookie.setPath("/");
-    response.addCookie(authCookie);
+	String jetonJWT = Jwts.builder()
+		.setSubject(user.getUsername())
+		.addClaims(infosSupplementaireToken)
+		.setExpiration(new Date(System.currentTimeMillis() + EXPIRES_IN * 1000))
+		.signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, SECRET)
+		.compact();
 
-    return ResponseEntity.ok().build();
-  }
-  
-  @GetMapping(value = "/me")
-  public CollegueMatriculeNomPrenomsRoles getMe () {
-	  UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
-	  return new CollegueMatriculeNomPrenomsRoles(col.getCollegue().getMatricule(), col.getCollegue().getNom(), col.getCollegue().getPrenoms(), col.getRoles());
-  }
+	Cookie authCookie = new Cookie(TOKEN_COOKIE, jetonJWT);
+	authCookie.setHttpOnly(true);
+	authCookie.setMaxAge(EXPIRES_IN * 1000);
+	authCookie.setPath("/");
+	response.addCookie(authCookie);
 
-  @ExceptionHandler(BadCredentialsException.class)
-  public ResponseEntity mauvaiseInfosConnexion(BadCredentialsException e) {
-    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-  }
+	return ResponseEntity.ok().build();
+    }
+
+    @GetMapping(value = "/me")
+    public CollegueMatriculeNomPrenomsRoles getMe () {
+	UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
+	return new CollegueMatriculeNomPrenomsRoles(col.getCollegue().getMatricule(), col.getCollegue().getNom(), col.getCollegue().getPrenoms(), col.getRoles());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity mauvaiseInfosConnexion(BadCredentialsException e) {
+	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
 
 }

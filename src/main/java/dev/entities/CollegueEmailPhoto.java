@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.entities;
 
@@ -9,46 +9,46 @@ package dev.entities;
  */
 public class CollegueEmailPhoto
 {
-	private String email;
-	private String photoUrl;
+    private String email;
+    private String photoUrl;
 
-	/**
-	 * Getter
-	 * 
-	 * @return the photoUrl
-	 */
-	public String getPhotoUrl()
-	{
-		return photoUrl;
-	}
+    /**
+     * Getter
+     *
+     * @return the photoUrl
+     */
+    public String getPhotoUrl()
+    {
+	return photoUrl;
+    }
 
-	/**
-	 * Setter
-	 * 
-	 * @param photoUrl the photoUrl to set
-	 */
-	public void setPhotoUrl(String photoUrl)
-	{
-		this.photoUrl = photoUrl;
-	}
+    /**
+     * Setter
+     *
+     * @param photoUrl the photoUrl to set
+     */
+    public void setPhotoUrl(String photoUrl)
+    {
+	this.photoUrl = photoUrl;
+    }
 
-	/**
-	 * Getter
-	 * 
-	 * @return the email
-	 */
-	public String getEmail()
-	{
-		return email;
-	}
+    /**
+     * Getter
+     *
+     * @return the email
+     */
+    public String getEmail()
+    {
+	return email;
+    }
 
-	/**
-	 * Setter
-	 * 
-	 * @param email the email to set
-	 */
-	public void setEmail(String email)
-	{
-		this.email = email;
-	}
+    /**
+     * Setter
+     *
+     * @param email the email to set
+     */
+    public void setEmail(String email)
+    {
+	this.email = email;
+    }
 }

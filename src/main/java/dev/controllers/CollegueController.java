@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.controllers;
 
@@ -38,7 +38,7 @@ public class CollegueController {
 
     // Collegues ---------------------------------------
     // Retour d'informations pour affichage ------------
-    
+
     @GetMapping()
     public List<String> afficherCollegueParNom(@RequestParam("nom") String nomRecherche) {
 	return collegueService.rechercherParNom(nomRecherche);
@@ -54,7 +54,7 @@ public class CollegueController {
     public List<CollegueDTO> afficherCollegues() {
 	return collegueService.rechercherCollegues();
     }
-    
+
     // Affiche tous les matricules de la BDD
     @Secured("ROLE_ADMIN")
     @GetMapping(path = "/matricules")
@@ -69,14 +69,14 @@ public class CollegueController {
     }
 
     // Opérations sur la BDD (Ajout, modif, vérifications ...)
-    
+
     @Secured("ROLE_ADMIN")
     @PostMapping
     public ResponseEntity<CollegueDTO> ajouterCollegue(@RequestBody CollegueDTO collegueAAjouter) {
 	CollegueDTO collegueTemp = collegueService.ajouterUnCollegue(collegueAAjouter);
 	return ResponseEntity.status(HttpStatus.OK).body(collegueTemp);
     }
-    
+
     @Secured("ROLE_ADMIN")
     @PatchMapping(path = "/{matriculeRecherche}")
     public ResponseEntity<CollegueDTO> miseAJourCollegue(@PathVariable String matriculeRecherche,
@@ -106,14 +106,14 @@ public class CollegueController {
 
     // Notes d'un collègue --------------------------------
     // Retour d'informations pour affichage ---------------
-    
+
     @GetMapping(path = "/notes/{matriculeRecherche}")
     public List<NoteDTO> afficherNotesParMatricule(@PathVariable String matriculeRecherche) {
 	return collegueService.rechercherNotesParMatricules(matriculeRecherche);
     }
-    
+
     // Opération sur la BDD (ajout et suppression)
-    
+
     @PostMapping(path = "/ajoutNote")
     public ResponseEntity<Boolean> ajoutNote(@RequestBody CollegueMatriculeNote collegue) {
 	boolean ajout = collegueService.ajoutNote(collegue);

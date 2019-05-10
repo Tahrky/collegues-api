@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.entities;
 
@@ -23,7 +23,7 @@ public class CollegueMatriculeNote {
 
     /**
      * Getter
-     * 
+     *
      * @return the messageNote
      */
     public String getMessageNote() {
@@ -32,7 +32,7 @@ public class CollegueMatriculeNote {
 
     /**
      * Setter
-     * 
+     *
      * @param messageNote the messageNote to set
      */
     public void setMessageNote(String messageNote) {
@@ -41,7 +41,7 @@ public class CollegueMatriculeNote {
 
     /**
      * Getter
-     * 
+     *
      * @return the matricule
      */
     public String getMatricule() {
@@ -50,7 +50,7 @@ public class CollegueMatriculeNote {
 
     /**
      * Setter
-     * 
+     *
      * @param matricule the matricule to set
      */
     public void setMatricule(String matricule) {

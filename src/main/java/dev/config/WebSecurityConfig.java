@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.config;
 
@@ -24,37 +24,37 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Value("${jwt.cookie}")
-  private String TOKEN_COOKIE;
+    @Value("${jwt.cookie}")
+    private String TOKEN_COOKIE;
 
-  @Autowired
-  JWTAuthorizationFilter jwtAuthorizationFilter;
+    @Autowired
+    JWTAuthorizationFilter jwtAuthorizationFilter;
 
-  @Bean
-  public PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder();
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+	return new BCryptPasswordEncoder();
+    }
 
 
-  @Override
-  @Bean
-  public AuthenticationManager authenticationManagerBean() throws Exception {
-    return super.authenticationManagerBean();
-  }
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+	return super.authenticationManagerBean();
+    }
 
-  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http
-      	.csrf().disable()
-      	.cors().and()
-      	.authorizeRequests()
-      	.antMatchers("/collegues/**").permitAll()
-      	.antMatchers("/auth").permitAll()
-      	.anyRequest().authenticated()
-      	.and().headers().frameOptions().disable()
-      	.and().addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-      	.logout()
-      	.logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpStatus.OK.value()))
-      	.deleteCookies(TOKEN_COOKIE);
-  }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+	http
+	.csrf().disable()
+	.cors().and()
+	.authorizeRequests()
+	.antMatchers("/collegues/**").permitAll()
+	.antMatchers("/auth").permitAll()
+	.anyRequest().authenticated()
+	.and().headers().frameOptions().disable()
+	.and().addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+	.logout()
+	.logoutSuccessHandler((req, resp, auth) -> resp.setStatus(HttpStatus.OK.value()))
+	.deleteCookies(TOKEN_COOKIE);
+    }
 }

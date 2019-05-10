@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.repository;
 

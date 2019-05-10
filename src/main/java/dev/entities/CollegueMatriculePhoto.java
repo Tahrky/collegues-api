@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.entities;
 
@@ -22,7 +22,7 @@ public class CollegueMatriculePhoto {
 
     /**
      * Getter
-     * 
+     *
      * @return the matricule
      */
     public String getMatricule() {
@@ -31,7 +31,7 @@ public class CollegueMatriculePhoto {
 
     /**
      * Setter
-     * 
+     *
      * @param matricule the matricule to set
      */
     public void setMatricule(String matricule) {
@@ -40,7 +40,7 @@ public class CollegueMatriculePhoto {
 
     /**
      * Getter
-     * 
+     *
      * @return the photoUrl
      */
     public String getPhotoUrl() {
@@ -49,7 +49,7 @@ public class CollegueMatriculePhoto {
 
     /**
      * Setter
-     * 
+     *
      * @param photoUrl the photoUrl to set
      */
     public void setPhotoUrl(String photoUrl) {

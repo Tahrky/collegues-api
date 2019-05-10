@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.entities;
 
@@ -38,7 +38,7 @@ public class Collegue {
 
     @OneToMany(mappedBy = "collegue")
     private List<Note> noteTab;
-    
+
     @OneToOne (mappedBy="collegue")
     UtilisateurSession utilisateur;
 
@@ -84,7 +84,7 @@ public class Collegue {
 
     /**
      * Getter
-     * 
+     *
      * @return the matricule
      */
     public String getMatricule() {
@@ -93,7 +93,7 @@ public class Collegue {
 
     /**
      * Setter
-     * 
+     *
      * @param matricule the matricule to set
      */
     public void setMatricule(String matricule) {
@@ -102,7 +102,7 @@ public class Collegue {
 
     /**
      * Getter
-     * 
+     *
      * @return the nom
      */
     public String getNom() {
@@ -111,7 +111,7 @@ public class Collegue {
 
     /**
      * Setter
-     * 
+     *
      * @param nom the nom to set
      */
     public void setNom(String nom) {
@@ -120,7 +120,7 @@ public class Collegue {
 
     /**
      * Getter
-     * 
+     *
      * @return the prenoms
      */
     public String getPrenoms() {
@@ -129,7 +129,7 @@ public class Collegue {
 
     /**
      * Setter
-     * 
+     *
      * @param prenoms the prenoms to set
      */
     public void setPrenoms(String prenoms) {
@@ -138,7 +138,7 @@ public class Collegue {
 
     /**
      * Getter
-     * 
+     *
      * @return the email
      */
     public String getEmail() {
@@ -147,7 +147,7 @@ public class Collegue {
 
     /**
      * Setter
-     * 
+     *
      * @param email the email to set
      */
     public void setEmail(String email) {
@@ -156,7 +156,7 @@ public class Collegue {
 
     /**
      * Getter
-     * 
+     *
      * @return the dateDeNaissance
      */
     public LocalDate getDateDeNaissance() {
@@ -165,7 +165,7 @@ public class Collegue {
 
     /**
      * Setter
-     * 
+     *
      * @param dateDeNaissance the dateDeNaissance to set
      */
     public void setDateDeNaissance(LocalDate dateDeNaissance) {
@@ -174,7 +174,7 @@ public class Collegue {
 
     /**
      * Getter
-     * 
+     *
      * @return the photoUrl
      */
     public String getPhotoUrl() {
@@ -183,7 +183,7 @@ public class Collegue {
 
     /**
      * Setter
-     * 
+     *
      * @param photoUrl the photoUrl to set
      */
     public void setPhotoUrl(String photoUrl) {
@@ -192,7 +192,7 @@ public class Collegue {
 
     /**
      * Getter
-     * 
+     *
      * @return the noteTab
      */
     public List<Note> getNoteTab() {
@@ -201,7 +201,7 @@ public class Collegue {
 
     /**
      * Setter
-     * 
+     *
      * @param noteTab the noteTab to set
      */
     public void setNoteTab(List<Note> noteTab) {

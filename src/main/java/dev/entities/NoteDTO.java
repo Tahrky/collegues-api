@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package dev.entities;
 
@@ -27,7 +27,7 @@ public class NoteDTO {
 
     /**
      * Getter
-     * 
+     *
      * @return the id
      */
     public int getId() {
@@ -36,7 +36,7 @@ public class NoteDTO {
 
     /**
      * Setter
-     * 
+     *
      * @param id the id to set
      */
     public void setId(int id) {
@@ -45,7 +45,7 @@ public class NoteDTO {
 
     /**
      * Getter
-     * 
+     *
      * @return the message
      */
     public String getMessage() {
@@ -54,7 +54,7 @@ public class NoteDTO {
 
     /**
      * Setter
-     * 
+     *
      * @param message the message to set
      */
     public void setMessage(String message) {
@@ -63,7 +63,7 @@ public class NoteDTO {
 
     /**
      * Getter
-     * 
+     *
      * @return the date
      */
     public LocalDateTime getDate() {
@@ -72,7 +72,7 @@ public class NoteDTO {
 
     /**
      * Setter
-     * 
+     *
      * @param date the date to set
      */
     public void setDate(LocalDateTime date) {
