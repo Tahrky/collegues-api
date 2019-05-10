@@ -12,7 +12,7 @@ import java.util.List;
 public class CollegueMatriculeNomPrenomsRoles {
 	String matricule;
 	String nom;
-	String penoms;
+	String prenoms;
 	List<String> roles;
 	
 	public CollegueMatriculeNomPrenomsRoles() {}
@@ -21,7 +21,7 @@ public class CollegueMatriculeNomPrenomsRoles {
 		super();
 		this.matricule = matricule;
 		this.nom = nom;
-		this.penoms = penoms;
+		this.prenoms = penoms;
 		this.roles = roles;
 	}
 	
@@ -57,15 +57,15 @@ public class CollegueMatriculeNomPrenomsRoles {
 	 * Getter
 	 * @return the penoms
 	 */
-	public String getPenoms() {
-		return penoms;
+	public String getPrenoms() {
+		return prenoms;
 	}
 	/**
 	 * Setter
 	 * @param penoms the penoms to set
 	 */
-	public void setPenoms(String penoms) {
-		this.penoms = penoms;
+	public void setPrenoms(String penoms) {
+		this.prenoms = penoms;
 	}
 	/**
 	 * Getter
