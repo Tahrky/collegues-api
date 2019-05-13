@@ -88,7 +88,14 @@ public class AuthentificationCtrl {
 		authCookie.setPath("/");
 		response.addCookie(authCookie);
 
-		return ResponseEntity.ok().body("coucou");
+		if (authenticationRequest.getPhotoUrl () != null)
+		{
+			UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
+			col.getCollegue().setPhotoUrl(authenticationRequest.getPhotoUrl ());
+			utilisateurRepository.save(col);
+		}
+
+		return ResponseEntity.ok().build();
     }
 
     @GetMapping(value = "/me")
