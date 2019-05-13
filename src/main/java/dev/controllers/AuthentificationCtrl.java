@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.entities.CollegueEmailNomPrenomsPhotoUrlRoles;
 import dev.entities.CollegueMatriculeNomPrenomsRoles;
 import dev.entities.InfosAuthentification;
 import dev.entities.UtilisateurSession;
@@ -62,31 +63,31 @@ public class AuthentificationCtrl {
     public ResponseEntity<String> authenticate(@RequestBody InfosAuthentification authenticationRequest, HttpServletResponse response) {
 		// encapsulation des informations de connexion
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getMotDePasse());
-	
+
 		// vérification de l'authentification
 		// une exception de type `BadCredentialsException` en cas d'informations non valides
 		Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-	
+
 		User user = (User) authentication.getPrincipal();
-	
+
 		String rolesList = user.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.joining(","));
-	
+
 		Map<String, Object> infosSupplementaireToken = new HashMap<>();
 		infosSupplementaireToken.put("roles", rolesList);
-	
+
 		String jetonJWT = Jwts.builder()
 			.setSubject(user.getUsername())
 			.addClaims(infosSupplementaireToken)
 			.setExpiration(new Date(System.currentTimeMillis() + EXPIRES_IN * 1000))
 			.signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, SECRET)
 			.compact();
-	
+
 		Cookie authCookie = new Cookie(TOKEN_COOKIE, jetonJWT);
 		authCookie.setHttpOnly(true);
 		authCookie.setMaxAge(EXPIRES_IN * 1000);
 		authCookie.setPath("/");
 		response.addCookie(authCookie);
-	
+
 		return ResponseEntity.ok().body("coucou");
     }
 
@@ -94,6 +95,12 @@ public class AuthentificationCtrl {
     public CollegueMatriculeNomPrenomsRoles getMe () {
 		UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
 		return new CollegueMatriculeNomPrenomsRoles(col.getCollegue().getMatricule(), col.getCollegue().getNom(), col.getCollegue().getPrenoms(), col.getRoles());
+    }
+
+    @GetMapping(value = "/me2")
+    public CollegueEmailNomPrenomsPhotoUrlRoles getMe2 () {
+		UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
+		return new CollegueEmailNomPrenomsPhotoUrlRoles(col.getCollegue().getEmail(), col.getCollegue().getNom(), col.getCollegue().getPrenoms(), col.getCollegue().getPhotoUrl(), col.getRoles());
     }
 
     @ExceptionHandler(BadCredentialsException.class)
