@@ -90,7 +90,7 @@ public class AuthentificationCtrl {
 
 		if (authenticationRequest.getPhotoUrl () != null)
 		{
-			UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
+			UtilisateurSession col = utilisateurRepository.findByCollegueEmail(authenticationRequest.getEmail()).orElseThrow(CollegueNonTrouveException::new);
 			col.getCollegue().setPhotoUrl(authenticationRequest.getPhotoUrl ());
 			utilisateurRepository.save(col);
 		}
