@@ -59,46 +59,46 @@ public class AuthentificationCtrl {
 
     // Permet de s'authentifier, en générant un cookie pour maintenir la session en cours
     @PostMapping(value = "/auth")
-    public ResponseEntity authenticate(@RequestBody InfosAuthentification authenticationRequest, HttpServletResponse response) {
-	// encapsulation des informations de connexion
-	UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getMotDePasse());
-
-	// vérification de l'authentification
-	// une exception de type `BadCredentialsException` en cas d'informations non valides
-	Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
-
-	User user = (User) authentication.getPrincipal();
-
-	String rolesList = user.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.joining(","));
-
-	Map<String, Object> infosSupplementaireToken = new HashMap<>();
-	infosSupplementaireToken.put("roles", rolesList);
-
-	String jetonJWT = Jwts.builder()
-		.setSubject(user.getUsername())
-		.addClaims(infosSupplementaireToken)
-		.setExpiration(new Date(System.currentTimeMillis() + EXPIRES_IN * 1000))
-		.signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, SECRET)
-		.compact();
-
-	Cookie authCookie = new Cookie(TOKEN_COOKIE, jetonJWT);
-	authCookie.setHttpOnly(true);
-	authCookie.setMaxAge(EXPIRES_IN * 1000);
-	authCookie.setPath("/");
-	response.addCookie(authCookie);
-
-	return ResponseEntity.ok().build();
+    public ResponseEntity<String> authenticate(@RequestBody InfosAuthentification authenticationRequest, HttpServletResponse response) {
+		// encapsulation des informations de connexion
+		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getMotDePasse());
+	
+		// vérification de l'authentification
+		// une exception de type `BadCredentialsException` en cas d'informations non valides
+		Authentication authentication = authenticationManager.authenticate(usernamePasswordAuthenticationToken);
+	
+		User user = (User) authentication.getPrincipal();
+	
+		String rolesList = user.getAuthorities().stream().map(a -> a.getAuthority()).collect(Collectors.joining(","));
+	
+		Map<String, Object> infosSupplementaireToken = new HashMap<>();
+		infosSupplementaireToken.put("roles", rolesList);
+	
+		String jetonJWT = Jwts.builder()
+			.setSubject(user.getUsername())
+			.addClaims(infosSupplementaireToken)
+			.setExpiration(new Date(System.currentTimeMillis() + EXPIRES_IN * 1000))
+			.signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, SECRET)
+			.compact();
+	
+		Cookie authCookie = new Cookie(TOKEN_COOKIE, jetonJWT);
+		authCookie.setHttpOnly(true);
+		authCookie.setMaxAge(EXPIRES_IN * 1000);
+		authCookie.setPath("/");
+		response.addCookie(authCookie);
+	
+		return ResponseEntity.ok().body("coucou");
     }
 
     @GetMapping(value = "/me")
     public CollegueMatriculeNomPrenomsRoles getMe () {
-	UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
-	return new CollegueMatriculeNomPrenomsRoles(col.getCollegue().getMatricule(), col.getCollegue().getNom(), col.getCollegue().getPrenoms(), col.getRoles());
+		UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
+		return new CollegueMatriculeNomPrenomsRoles(col.getCollegue().getMatricule(), col.getCollegue().getNom(), col.getCollegue().getPrenoms(), col.getRoles());
     }
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity mauvaiseInfosConnexion(BadCredentialsException e) {
-	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 
 }
