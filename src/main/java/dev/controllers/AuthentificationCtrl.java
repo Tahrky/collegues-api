@@ -43,24 +43,24 @@ import io.jsonwebtoken.Jwts;
 //@CrossOrigin(origins= {"http://localhost:4200", "https://tahrky.github.io" }, allowCredentials = "true")
 public class AuthentificationCtrl {
 
-    @Value("${jwt.expires_in}")
-    private Integer EXPIRES_IN;
+	@Value("${jwt.expires_in}")
+	private Integer EXPIRES_IN;
 
-    @Value("${jwt.cookie}")
-    private String TOKEN_COOKIE;
+	@Value("${jwt.cookie}")
+	private String TOKEN_COOKIE;
 
-    @Value("${jwt.secret}")
-    private String SECRET;
+	@Value("${jwt.secret}")
+	private String SECRET;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
+	@Autowired
+	private UtilisateurRepository utilisateurRepository;
 
-    // Permet de s'authentifier, en générant un cookie pour maintenir la session en cours
-    @PostMapping(value = "/auth")
-    public ResponseEntity<String> authenticate(@RequestBody InfosAuthentification authenticationRequest, HttpServletResponse response) {
+	// Permet de s'authentifier, en générant un cookie pour maintenir la session en cours
+	@PostMapping(value = "/auth")
+	public ResponseEntity<String> authenticate(@RequestBody InfosAuthentification authenticationRequest, HttpServletResponse response) {
 		// encapsulation des informations de connexion
 		UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getMotDePasse());
 
@@ -76,11 +76,11 @@ public class AuthentificationCtrl {
 		infosSupplementaireToken.put("roles", rolesList);
 
 		String jetonJWT = Jwts.builder()
-			.setSubject(user.getUsername())
-			.addClaims(infosSupplementaireToken)
-			.setExpiration(new Date(System.currentTimeMillis() + EXPIRES_IN * 1000))
-			.signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, SECRET)
-			.compact();
+				.setSubject(user.getUsername())
+				.addClaims(infosSupplementaireToken)
+				.setExpiration(new Date(System.currentTimeMillis() + EXPIRES_IN * 1000))
+				.signWith(io.jsonwebtoken.SignatureAlgorithm.HS512, SECRET)
+				.compact();
 
 		Cookie authCookie = new Cookie(TOKEN_COOKIE, jetonJWT);
 		authCookie.setHttpOnly(true);
@@ -88,7 +88,7 @@ public class AuthentificationCtrl {
 		authCookie.setPath("/");
 		response.addCookie(authCookie);
 
-		if (authenticationRequest.getPhotoUrl () != null)
+		if (authenticationRequest.getPhotoUrl () != null && authenticationRequest.getPhotoUrl ().length() > 0 )
 		{
 			UtilisateurSession col = utilisateurRepository.findByCollegueEmail(authenticationRequest.getEmail()).orElseThrow(CollegueNonTrouveException::new);
 			col.getCollegue().setPhotoUrl(authenticationRequest.getPhotoUrl ());
@@ -96,23 +96,23 @@ public class AuthentificationCtrl {
 		}
 
 		return ResponseEntity.ok().build();
-    }
+	}
 
-    @GetMapping(value = "/me")
-    public CollegueMatriculeNomPrenomsRoles getMe () {
+	@GetMapping(value = "/me")
+	public CollegueMatriculeNomPrenomsRoles getMe () {
 		UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
 		return new CollegueMatriculeNomPrenomsRoles(col.getCollegue().getMatricule(), col.getCollegue().getNom(), col.getCollegue().getPrenoms(), col.getRoles());
-    }
+	}
 
-    @GetMapping(value = "/me2")
-    public CollegueEmailNomPrenomsPhotoUrlRoles getMe2 () {
+	@GetMapping(value = "/me2")
+	public CollegueEmailNomPrenomsPhotoUrlRoles getMe2 () {
 		UtilisateurSession col = utilisateurRepository.findByCollegueEmail(SecurityContextHolder.getContext().getAuthentication().getName()).orElseThrow(CollegueNonTrouveException::new);
 		return new CollegueEmailNomPrenomsPhotoUrlRoles(col.getCollegue().getEmail(), col.getCollegue().getNom(), col.getCollegue().getPrenoms(), col.getCollegue().getPhotoUrl(), col.getRoles());
-    }
+	}
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity mauvaiseInfosConnexion(BadCredentialsException e) {
-    	return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
+	@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity mauvaiseInfosConnexion(BadCredentialsException e) {
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+	}
 
 }
